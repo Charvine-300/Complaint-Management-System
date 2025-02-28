@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.details-row {
+    @apply flex justify-between items-center py-2 border-b border-gray-200;
+}
+
+.filter-section {
+    @apply  my-[12px] flex flex-col gap-[16px]
+}
+
+.filter-label {
+    @apply flex items-center gap-2 justify-between
+}
+
+.filter-arr {
+    @apply w-[13.5px] h-[13.5px] transition-transform
+}
+
+.filter-span {
+    @apply text-[#667185] text-[14px] font-normal
+}
+
+.filter-btn {
+    @apply flex items-center justify-between cursor-pointer mb-[12px]
+}

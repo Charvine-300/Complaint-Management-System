@@ -1,0 +1,51 @@
+/* body {
+  background-color: #ffffff;
+
+} */
+
+/* TODO - Fix styling for checkboxes */
+
+
+
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid #D0D5DD;
+  border-radius: 4px;
+  background-color: #fff;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+input[type="checkbox"]:checked {
+  background-color: #2E90FA;
+  border-color: #2E90FA;
+}
+
+input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 2px;
+  width: 4px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+input[type="checkbox"]:hover {
+  border-color: #2E90FA;
+}
+
+input[type="checkbox"]:focus {
+  outline: 2px solid #D1E9FF;
+  outline-offset: 2px;
+}
+
+label {
+cursor: pointer;
+}
