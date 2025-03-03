@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+.header-container {
+
+    display: flex;
+  
+    justify-content: space-between; /* Or space-around, space-evenly depending on your needs */
+  
+  }
