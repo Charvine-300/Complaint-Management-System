@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import Link from 'next/link';
 
 const Signup = () => {
+  // TODO - Add state management for selected user type
   const [showPassword, setShowPassword] = useState(false);
 
   const {
@@ -34,6 +35,11 @@ const Signup = () => {
       setSelectedCourses([...selectedCourses, course]);
     }
   };
+
+  const handleDelete = (course) => {
+    setSelectedCourses(selectedCourses.filter((c) => c !== course));
+  };
+  
 
   return (
     <AuthLayout>
@@ -90,25 +96,24 @@ const Signup = () => {
           </div>
 
            {/* List of courses Input */}
-           {/* TODO - Fix select height and add tabs beneath for selected courses */}
            <div className="input-field-group relative">
       <label className="label">
-        List of courses they want to apply for (min: 3, max: 7)
+        List of courses to apply for (min: 3, max: 7)
       </label>
       
       <div className="relative">
         <div
           type="button"
           onClick={toggleDropdown}
-          className="input text-left w-full flex justify-end items-center cursor-pointer !py-4"
+          className="input text-left w-full flex justify-end items-center cursor-pointer !py-3.5"
         >
         <img 
   src="/assets/icons/CaretDown.svg" 
   alt="dropdown arrow" 
   className={`block ml-auto transition-transform duration-300 ${isOpen ? "rotate-180" : "rotate-0"}`} 
 />
- {/* Dropdown arrow */}
         </div>
+
 
         {isOpen && (
           <div className={`absolute z-10 w-full mt-2 bg-white border border-gray-300 shadow-lg rounded-md p-2 
@@ -129,11 +134,21 @@ const Signup = () => {
             ))}
           </div>
         )}
+                {selectedCourses && (
+  <div className='flex gap-3 flex-wrap mt-3'>
+    {selectedCourses.map((item, index) => (
+      <div className='bg-blue-300 text-sm flex px-3 py-1 rounded-sm gap-1 items-center' key={index}>
+        <p>{item}</p>
+        <img src="/assets/icons/delete.svg" alt="delete icon" className='w-3 h-4 cursor-pointer' onClick={() => handleDelete(item)} />
+      </div>
+    ))}
+  </div>
+)}
       </div>
 
       {errors.courses && <p className="text-red-500 text-sm">{errors.courses.message}</p>}
       <input type="hidden" {...register("courses", {
-        validate: (value) =>
+        validate: () =>
           selectedCourses.length >= 3 && selectedCourses.length <= 7
             ? true
             : "You must select between 3 and 7 courses",
@@ -166,12 +181,10 @@ const Signup = () => {
             </div>
             {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
           </div>
-
-          {/* Additional Feature */}
-          {/* <p className="my-5 text-right text-sm text-gray-800">Forgot Password?</p> */}
+          <Link href='/auth/signup/user-type' className="text-error-600 block cursor-pointer my-5 text-right text-sm text-gray-800">Change user type</Link>
 
           {/* Submit Button */}
-          <button type="submit" className="primary-btn" disabled={isSubmitting}>
+          <button type="submit" className="btn primary-btn" disabled={isSubmitting}>
             {isSubmitting ? "Signing up..." : "Sign up"}
           </button>
           <p className="text-center text-gray-800 text-sm mt-5"> Already have an account? <Link href="/auth/login" className="cursor-pointer text-blue-500"> Log in </Link> </p>

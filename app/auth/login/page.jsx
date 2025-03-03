@@ -77,10 +77,10 @@ const Login = () => {
           {/* <p className="my-5 text-right text-sm text-gray-800">Forgot Password?</p> */}
 
           {/* Submit Button */}
-          <button type="submit" className="primary-btn" disabled={isSubmitting}>
+          <button type="submit" className="btn primary-btn" disabled={isSubmitting}>
             {isSubmitting ? "Logging in..." : "Log in"}
           </button>
-          <p className="text-center text-gray-800 text-sm mt-5">Don't have an account? <Link href="/auth/signup" className="cursor-pointer text-blue-500"> Sign up</Link> </p>
+          <p className="text-center text-gray-800 text-sm mt-5">Don't have an account? <Link href="/auth/signup/user-type" className="cursor-pointer text-blue-500"> Sign up</Link> </p>
         </form>
       </div>
     </AuthLayout>

@@ -93,8 +93,15 @@ label, input, a, p, button {
     @apply focus:ring focus:ring-blue-300 block w-full border border-gray-200 rounded-md py-2 px-3 placeholder-gray-400 placeholder:text-sm 
   }
 
+  .btn {
+    @apply cursor-pointer w-full py-2 rounded-sm mt-5;
+  }
   .primary-btn {
-    @apply bg-blue-500 cursor-pointer w-full py-2 rounded-sm text-gray-50 mt-5;
+    @apply bg-blue-500 text-gray-50;
+  }
+
+  .outline-btn {
+    @apply bg-white border border-blue-500 text-blue-500;
   }
 }
 
