@@ -12,3 +12,96 @@
   }
 }
 
+@font-face {
+  font-family: 'Recoleta Alt Regular';
+  src: url('/fonts/Fontspring-DEMO-recoletaalt-regular-iF663b21f697e65.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Recoleta Alt Semibold';
+  src: url('/fonts/Fontspring-DEMO-recoletaalt-semibold-iF663b21f69d11d.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Recoleta Alt Black';
+  src: url('/fonts/Fontspring-DEMO-recoletaalt-black-iF663b21f6712ee.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Recoleta Alt Light';
+  src: url('/fonts/Fontspring-DEMO-recoletaalt-light-iF663b21f688d82.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Recoleta Alt Medium';
+  src: url('/fonts/Fontspring-DEMO-recoletaalt-medium-iF663b21f692da3.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+input {
+  outline: none !important
+}
+
+label, input, a, p, button {
+  font-family: "DM Sans", serif;
+}
+
+.recoleta-regular {
+  font-family: "Recoleta Alt Regular", sans-serif;
+  font-weight: 400;
+}
+
+.recoleta-semibold {
+  font-family: "Recoleta Alt Semibold", sans-serif;
+  font-weight: 600;
+}
+
+.recoleta-black {
+  font-family: "Recoleta Alt Black", sans-serif;
+  font-weight: 900;
+}
+
+.recoleta-light {
+  font-family: "Recoleta Alt Light", sans-serif;
+  font-weight: 300;
+}
+
+.recoleta-medium {
+  font-family: "Recoleta Alt Medium", sans-serif;
+  font-weight: 500;
+}
+
+@layer utilities {
+  .input-field-group {
+    @apply mb-4 flex gap-2 flex-col;
+  }
+  .label {
+    @apply text-gray-800 text-sm;
+  }
+
+  .input {
+    @apply focus:ring focus:ring-blue-300 block w-full border border-gray-200 rounded-md py-2 px-3 placeholder-gray-400 placeholder:text-sm 
+  }
+
+  .btn {
+    @apply cursor-pointer w-full py-2 rounded-sm mt-5;
+  }
+  .primary-btn {
+    @apply bg-blue-500 text-gray-50;
+  }
+
+  .outline-btn {
+    @apply bg-white border border-blue-500 text-blue-500;
+  }
+}
+
