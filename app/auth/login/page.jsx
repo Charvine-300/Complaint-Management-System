@@ -1,22 +1,44 @@
 'use client';
 
-import { AuthLayout } from '@/components';
+import { AuthLayout, Loading } from '@/components';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Link from 'next/link';
+import axiosInstance from '@/utils/axiosInstance';
+import useStore from '@/utils/ComplaintMgmtStore';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 const Login = () => {
+  const complaintStore = useStore((state) => state);
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm();
 
   const onSubmit = async (data) => {
-    console.log('Form Data:', data);
+    setLoading(true);
     // TODO: Handle login API call here
+    try {
+      const response = await axiosInstance.post('/auth/signin', data);
+      console.log(response);
+      if (response?.data.token) {
+        complaintStore.setAccessToken(response.data.token);
+        router.push('/dashboard');
+      }
+  
+      return response.data;
+    } catch (error) {
+      console.error('API Error:', error);
+
+      toast.error(error.response.data.message || 'Login failed');
+      setLoading(false);
+    }
   };
 
   return (
@@ -34,6 +56,34 @@ const Login = () => {
 
         {/* Form */}
         <form onSubmit={handleSubmit(onSubmit)} className="my-5 px-6 w-full font-dmSans">
+          {/* User Type Select */}
+          <div className="input-field-group">
+          <label className="label">User Type</label>
+<div className="flex gap-4">
+  <label className="flex items-center gap-2 text-sm">
+    <input
+      type="radio"
+      value="lecturer"
+      {...register("role", { required: "User type is required" })}
+      className="radio-input cursor-pointer"
+    />
+    Lecturer
+  </label>
+
+  <label className="flex items-center gap-2 text-sm">
+    <input
+      type="radio"
+      value="student"
+      {...register("role", { required: "User type is required" })}
+      className="radio-input cursor-pointer"
+    />
+    Student
+  </label>
+</div>
+
+{errors.role && <p className="text-red-500 text-sm">{errors.role.message}</p>}
+          </div>
+
           {/* Email Input */}
           <div className="input-field-group">
             <label htmlFor="email" className="label">Email Address</label>
@@ -77,8 +127,8 @@ const Login = () => {
           {/* <p className="my-5 text-right text-sm text-gray-800">Forgot Password?</p> */}
 
           {/* Submit Button */}
-          <button type="submit" className="btn primary-btn" disabled={isSubmitting}>
-            {isSubmitting ? "Logging in..." : "Log in"}
+          <button type="submit" className="btn primary-btn">
+            {loading ? <Loading /> : "Log in"}
           </button>
           <p className="text-center text-gray-800 text-sm mt-5">Don't have an account? <Link href="/auth/signup/user-type" className="cursor-pointer text-blue-500"> Sign up</Link> </p>
         </form>

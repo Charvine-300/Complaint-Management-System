@@ -1,4 +1,5 @@
 import "./globals.css";
+import { Toaster } from "react-hot-toast";
 
 export const metadata = {
   title: "Zenly | Complaint Management System",
@@ -17,7 +18,11 @@ export default function RootLayout({ children }) {
           rel="stylesheet"
         />
       </head>
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        {/* Toast Notifications */}
+        <Toaster position="top-center" reverseOrder={false} />
+        {children}
+      </body>
     </html>
   );
 }

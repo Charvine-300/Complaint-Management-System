@@ -4,9 +4,11 @@ import { AuthLayout } from '@/components';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Link from 'next/link';
+import useStore from '@/utils/ComplaintMgmtStore';
+
 
 const Signup = () => {
-  // TODO - Add state management for selected user type
+  const complaintStore = useStore((state) => state);
   const [showPassword, setShowPassword] = useState(false);
 
   const {
@@ -17,12 +19,14 @@ const Signup = () => {
 
   const onSubmit = async (data) => {
     console.log('Form Data:', data);
-    // TODO: Handle login API call here
+    // TODO: Handle Signup API call here
   };
 
   // TODO - Remove constants
   const coursesList = ["CSC 310", "CSC 413", "CSC 419", "CSC 410", "CSC 434", "CSC 456"];
 
+  let minCourses = complaintStore.userType.toLowerCase() == 'student' ? 3 : 1;
+  let maxCourses = complaintStore.userType.toLowerCase() == 'student' ? 7 : 5;
   const [selectedCourses, setSelectedCourses] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -50,7 +54,7 @@ const Signup = () => {
           className="block mx-auto mt-8 lg:hidden"
         />
         <div className="mx-auto max-w-md text-center my-6">
-          <h1 className="capitalize font-medium text-black-600 recoleta-medium text-xl">Sign up</h1>
+          <h1 className="font-medium text-black-600 recoleta-medium text-xl">Sign Up as a {complaintStore.userType}</h1>
           <p className="text-gray-500 mt-3 text-base">Get started with Zenly</p>
         </div>
 
@@ -98,18 +102,27 @@ const Signup = () => {
            {/* List of courses Input */}
            <div className="input-field-group relative">
       <label className="label">
-        List of courses to apply for (min: 3, max: 7)
+        Select courses (min: {minCourses}, max: {maxCourses})
       </label>
       
       <div className="relative">
         <div
-          type="button"
-          onClick={toggleDropdown}
-          className="input text-left w-full flex justify-end items-center cursor-pointer !py-3.5"
+          className="input w-full !flex justify-between items-center cursor-pointer !py-3.5"
         >
+          {selectedCourses && (
+  <div className='flex gap-3 flex-wrap w-[90%]'>
+    {selectedCourses.map((item, index) => (
+      <div className='bg-blue-300 text-sm flex px-3 py-1 rounded-sm gap-1 items-center' key={index}>
+        <p>{item}</p>
+        <img src="/assets/icons/delete.svg" alt="delete icon" className='w-3 h-4 cursor-pointer' onClick={() => handleDelete(item)} />
+      </div>
+    ))}
+  </div>
+)}
         <img 
   src="/assets/icons/CaretDown.svg" 
   alt="dropdown arrow" 
+  onClick={toggleDropdown}
   className={`block ml-auto transition-transform duration-300 ${isOpen ? "rotate-180" : "rotate-0"}`} 
 />
         </div>
@@ -133,25 +146,15 @@ const Signup = () => {
               </label>
             ))}
           </div>
-        )}
-                {selectedCourses && (
-  <div className='flex gap-3 flex-wrap mt-3'>
-    {selectedCourses.map((item, index) => (
-      <div className='bg-blue-300 text-sm flex px-3 py-1 rounded-sm gap-1 items-center' key={index}>
-        <p>{item}</p>
-        <img src="/assets/icons/delete.svg" alt="delete icon" className='w-3 h-4 cursor-pointer' onClick={() => handleDelete(item)} />
-      </div>
-    ))}
-  </div>
-)}
+        )}       
       </div>
 
       {errors.courses && <p className="text-red-500 text-sm">{errors.courses.message}</p>}
       <input type="hidden" {...register("courses", {
         validate: () =>
-          selectedCourses.length >= 3 && selectedCourses.length <= 7
+          selectedCourses.length >= minCourses && selectedCourses.length <= maxCourses
             ? true
-            : "You must select between 3 and 7 courses",
+            : `You must select between ${minCourses} and ${maxCourses} courses`,
         value: selectedCourses
       })} />
     </div>
@@ -181,7 +184,8 @@ const Signup = () => {
             </div>
             {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
           </div>
-          <Link href='/auth/signup/user-type' className="text-error-600 block cursor-pointer my-5 text-right text-sm text-gray-800">Change user type</Link>
+          <p className="text-right text-gray-800 text-sm mt-5"> Wrong user? <Link href='/auth/signup/user-type' className="text-red-500 cursor-pointer my-5 text-sm">Change user type</Link> </p>
+          
 
           {/* Submit Button */}
           <button type="submit" className="btn primary-btn" disabled={isSubmitting}>

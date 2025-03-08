@@ -1,6 +1,8 @@
-import AuthLayout from "./auth/AuthLayout";
+import AuthLayout from "./layouts/AuthLayout";
 
+import Loading from './Loading'
 
 export {
     AuthLayout,
+    Loading
 }
