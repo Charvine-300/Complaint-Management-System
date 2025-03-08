@@ -23,10 +23,9 @@ const Login = () => {
 
   const onSubmit = async (data) => {
     setLoading(true);
-    // TODO: Handle login API call here
     try {
       const response = await axiosInstance.post('/auth/signin', data);
-      console.log(response);
+      // console.log(response);
       if (response?.data.token) {
         complaintStore.setAccessToken(response.data.token);
         router.push('/dashboard');
@@ -34,7 +33,7 @@ const Login = () => {
   
       return response.data;
     } catch (error) {
-      console.error('API Error:', error);
+      // console.error('API Error:', error);
 
       toast.error(error.response.data.message || 'Login failed');
       setLoading(false);

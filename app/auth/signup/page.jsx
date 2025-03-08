@@ -1,50 +1,143 @@
 'use client';
 
-import { AuthLayout } from '@/components';
-import React, { useState } from 'react';
+import { AuthLayout, Loading } from '@/components';
+import React, { useEffect, useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import Link from 'next/link';
+import axiosInstance from '@/utils/axiosInstance';
 import useStore from '@/utils/ComplaintMgmtStore';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 
 const Signup = () => {
   const complaintStore = useStore((state) => state);
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
+    setValue,
+    clearErrors,
+    setError
   } = useForm();
 
   const onSubmit = async (data) => {
-    console.log('Form Data:', data);
+    setLoading(true);
+    // Merge first_name and last_name into name
+    const { first_name, last_name, ...rest } = data;
+    const transformedData = {
+        ...rest,
+        name: `${first_name} ${last_name}`.trim(),
+    };
     // TODO: Handle Signup API call here
-  };
 
-  // TODO - Remove constants
-  const coursesList = ["CSC 310", "CSC 413", "CSC 419", "CSC 410", "CSC 434", "CSC 456"];
+    try {
+      const response = await axiosInstance.post(`/auth/register/${complaintStore.userType.toLowerCase()}`, transformedData);
+      toast.success(response.data.message);
+      router.push('/dashboard');
 
-  let minCourses = complaintStore.userType.toLowerCase() == 'student' ? 3 : 1;
-  let maxCourses = complaintStore.userType.toLowerCase() == 'student' ? 7 : 5;
-  const [selectedCourses, setSelectedCourses] = useState([]);
-  const [isOpen, setIsOpen] = useState(false);
+      // TODO - Save access token
+      // if (response?.data.token) {
+        // complaintStore.setAccessToken(response.data.token);
+      // }
 
-  const toggleDropdown = () => setIsOpen(!isOpen);
-
-  const handleSelect = (course) => {
-    if (selectedCourses.includes(course)) {
-      setSelectedCourses(selectedCourses.filter((c) => c !== course));
-    } else if (selectedCourses.length < 7) {
-      setSelectedCourses([...selectedCourses, course]);
+    } catch (error) {
+      console.error('API Error:', error);
+      toast.error(error.response.data.message || error.message || 'Signup failed');
+      setLoading(false);
     }
   };
 
-  const handleDelete = (course) => {
-    setSelectedCourses(selectedCourses.filter((c) => c !== course));
-  };
-  
+  let minCourses = complaintStore.userType.toLowerCase() == 'student' ? 3 : 1;
+  let maxCourses = complaintStore.userType.toLowerCase() == 'student' ? 7 : 3;
 
+  const [selectedCourses, setSelectedCourses] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null); 
+
+  const toggleDropdown = () => setIsOpen(!isOpen);
+  const handleSelect = (course) => {
+    setSelectedCourses((prevSelectedCourses) => {
+        // const currentCourses = getValues("courseIds") || [];
+        const isSelected = prevSelectedCourses.some((c) => c.id === course.id);
+      
+        if (isSelected) {
+            // Remove course from selectedCourses
+            const updatedCourses = prevSelectedCourses.filter((c) => c.id !== course.id);
+            
+            // Update selectedCourses and courseIds together
+            setValue(
+                "courseIds",
+                updatedCourses.map((c) => c.id)
+            );
+
+            // Check if selection is now below minimum
+            if (updatedCourses.length < minCourses) {
+                setError("courseIds", { type: "manual", message: `You must select at least ${minCourses} courses.` });
+            } else {
+                clearErrors("courseIds");
+            }
+
+            return updatedCourses;
+        }
+
+        if (prevSelectedCourses.length < maxCourses) {
+            const newSelectedCourses = [...prevSelectedCourses, course];
+
+            // Update selectedCourses and courseIds together
+            setValue(
+                "courseIds",
+                newSelectedCourses.map((c) => c.id)
+            );
+
+            // Remove any existing errors
+            if (newSelectedCourses.length >= minCourses) {
+                clearErrors("courseIds");
+            }
+
+            return newSelectedCourses;
+        } else {
+            setError("courseIds", { type: "manual", message: `You can only select up to ${maxCourses} courses.` });
+            setIsOpen(false);
+            return prevSelectedCourses;
+        }
+    });
+};
+
+  
+  
+  
+  const getCourses = async () => {
+    await axiosInstance.get('/course/get-all')
+    .then((response) => {
+      // console.log(response.data.data);
+      complaintStore.setCoursesList(response.data.data);
+    });
+  }
+  
+  useEffect(() => {
+    getCourses();
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
   return (
     <AuthLayout>
       <div className="mx-auto">
@@ -100,7 +193,7 @@ const Signup = () => {
           </div>
 
            {/* List of courses Input */}
-           <div className="input-field-group relative">
+           <div className="input-field-group relative" ref={dropdownRef}>
       <label className="label">
         Select courses (min: {minCourses}, max: {maxCourses})
       </label>
@@ -110,11 +203,11 @@ const Signup = () => {
           className="input w-full !flex justify-between items-center cursor-pointer !py-3.5"
         >
           {selectedCourses && (
-  <div className='flex gap-3 flex-wrap w-[90%]'>
+  <div className='flex gap-3 flex-wrap w-[90%] max-h-[108px] overflow-y-auto'>
     {selectedCourses.map((item, index) => (
       <div className='bg-blue-300 text-sm flex px-3 py-1 rounded-sm gap-1 items-center' key={index}>
-        <p>{item}</p>
-        <img src="/assets/icons/delete.svg" alt="delete icon" className='w-3 h-4 cursor-pointer' onClick={() => handleDelete(item)} />
+        <p>{item.name}</p>
+        <img src="/assets/icons/delete.svg" alt="delete icon" className='w-3 h-4 cursor-pointer' onClick={() => handleSelect(item)} />
       </div>
     ))}
   </div>
@@ -129,28 +222,28 @@ const Signup = () => {
 
 
         {isOpen && (
-          <div className={`absolute z-10 w-full mt-2 bg-white border border-gray-300 shadow-lg rounded-md p-2 
+          <div className={`absolute z-10 w-full mt-2 max-h-[258px] overflow-y-auto bg-white border border-gray-300 shadow-lg rounded-md p-2 
             transition-all duration-300 ease-in-out transform origin-top 
             ${isOpen ? "scale-100 opacity-100" : "scale-95 opacity-0 pointer-events-none"}
           `}
         >        
-            {coursesList.map((course) => (
-              <label key={course} className="flex items-center space-x-2 p-2 hover:bg-gray-100 cursor-pointer">
+          {complaintStore.coursesList && complaintStore.coursesList.map((course) => (
+              <label key={course.id} className="flex items-center space-x-2 p-2 hover:bg-gray-100 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={selectedCourses.includes(course)}
                   onChange={() => handleSelect(course)}
                   className="accent-blue-500"
                 />
-                <span>{course}</span>
+                <span>{course.name}</span>
               </label>
             ))}
           </div>
         )}       
       </div>
 
-      {errors.courses && <p className="text-red-500 text-sm">{errors.courses.message}</p>}
-      <input type="hidden" {...register("courses", {
+      {errors.courseIds && <p className="text-red-500 text-sm">{errors.courseIds.message}</p>}
+      <input type="hidden" {...register("courseIds", {
         validate: () =>
           selectedCourses.length >= minCourses && selectedCourses.length <= maxCourses
             ? true
@@ -184,12 +277,12 @@ const Signup = () => {
             </div>
             {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
           </div>
-          <p className="text-right text-gray-800 text-sm mt-5"> Wrong user? <Link href='/auth/signup/user-type' className="text-red-500 cursor-pointer my-5 text-sm">Change user type</Link> </p>
+          <p className="text-right text-gray-800 text-sm mt-5"> Wrong user? <Link href='/auth/signup/user-type' className="text-blue-500 cursor-pointer my-5 text-sm">Change user type</Link> </p>
           
 
           {/* Submit Button */}
-          <button type="submit" className="btn primary-btn" disabled={isSubmitting}>
-            {isSubmitting ? "Signing up..." : "Sign up"}
+          <button type="submit" className="btn primary-btn">
+            {loading ? <Loading /> : "Sign up"}       
           </button>
           <p className="text-center text-gray-800 text-sm mt-5"> Already have an account? <Link href="/auth/login" className="cursor-pointer text-blue-500"> Log in </Link> </p>
         </form>
