@@ -4,12 +4,14 @@ import { persist } from "zustand/middleware";
 const useStore = create(
   persist(
     (set) => ({
-      userType: "Student",
+      userType: "",
       accessToken: null,
+      coursesList: null,
 
       // Actions (not persisted)
       handleUserType: (type) => set({ userType: type }),
       setAccessToken: (token) => set({ accessToken: token }),
+      setCoursesList: (courses) => set({ coursesList: courses }),
       logout: () => set({ accessToken: null }),
     }),
     {

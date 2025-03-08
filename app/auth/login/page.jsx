@@ -1,6 +1,6 @@
 'use client';
 
-import { AuthLayout, Loading } from '@/components';
+import { AuthLayout, Button } from '@/components';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Link from 'next/link';
@@ -23,10 +23,9 @@ const Login = () => {
 
   const onSubmit = async (data) => {
     setLoading(true);
-    // TODO: Handle login API call here
     try {
       const response = await axiosInstance.post('/auth/signin', data);
-      console.log(response);
+      // console.log(response);
       if (response?.data.token) {
         complaintStore.setAccessToken(response.data.token);
         router.push('/dashboard');
@@ -34,7 +33,7 @@ const Login = () => {
   
       return response.data;
     } catch (error) {
-      console.error('API Error:', error);
+      // console.error('API Error:', error);
 
       toast.error(error.response.data.message || 'Login failed');
       setLoading(false);
@@ -127,9 +126,7 @@ const Login = () => {
           {/* <p className="my-5 text-right text-sm text-gray-800">Forgot Password?</p> */}
 
           {/* Submit Button */}
-          <button type="submit" className="btn primary-btn">
-            {loading ? <Loading /> : "Log in"}
-          </button>
+          <Button title='Log in' type='submit' loading={loading} />
           <p className="text-center text-gray-800 text-sm mt-5">Don't have an account? <Link href="/auth/signup/user-type" className="cursor-pointer text-blue-500"> Sign up</Link> </p>
         </form>
       </div>

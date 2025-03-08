@@ -1,6 +1,6 @@
 'use client';
 
-import { AuthLayout } from '@/components';
+import { AuthLayout, Button } from '@/components';
 import React from 'react';
 import { useRouter } from "next/navigation";
 import useStore from '@/utils/ComplaintMgmtStore';
@@ -28,12 +28,8 @@ const UserType = () => {
           <p className="text-gray-500 mt-3 text-base">Get started with Zenly</p>
 
           <div className="flex flex-col justify-center mx-auto w-[80%] my-6">
-          <button onClick={() => handleNavigate('Lecturer')} type="submit" className="btn primary-btn">
-            Sign up as Lecturer
-          </button>
-          <button onClick={() => handleNavigate('Student')} type="submit" className="btn outline-btn">
-            Sign up as Student
-          </button>
+          <Button title='Sign up as Lecturer' type='button' clickAction={() => handleNavigate('Lecturer')} />
+          <Button title='Sign up as Student' type='button' clickAction={() => handleNavigate('Student')} outlined />
           </div>
         </div>
       </div>
