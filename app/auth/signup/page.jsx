@@ -1,6 +1,6 @@
 'use client';
 
-import { AuthLayout, Loading } from '@/components';
+import { AuthLayout, Button } from '@/components';
 import React, { useEffect, useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import Link from 'next/link';
@@ -33,7 +33,6 @@ const Signup = () => {
         ...rest,
         name: `${first_name} ${last_name}`.trim(),
     };
-    // TODO: Handle Signup API call here
 
     try {
       const response = await axiosInstance.post(`/auth/register/${complaintStore.userType.toLowerCase()}`, transformedData);
@@ -281,9 +280,7 @@ const Signup = () => {
           
 
           {/* Submit Button */}
-          <button type="submit" className="btn primary-btn">
-            {loading ? <Loading /> : "Sign up"}       
-          </button>
+          <Button title='Sign up' type='submit' loading={loading} />
           <p className="text-center text-gray-800 text-sm mt-5"> Already have an account? <Link href="/auth/login" className="cursor-pointer text-blue-500"> Log in </Link> </p>
         </form>
       </div>
