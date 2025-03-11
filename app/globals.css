@@ -52,8 +52,12 @@ input {
   outline: none !important
 }
 
-label, input, a, p, button {
+label, input, a, p, button, tr, td {
   font-family: "DM Sans", serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Recoleta Alt Regular", sans-serif;
 }
 
 .recoleta-regular {

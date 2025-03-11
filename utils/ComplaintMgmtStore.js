@@ -5,14 +5,16 @@ const useStore = create(
   persist(
     (set) => ({
       userType: "",
+      userName: "",
       accessToken: null,
       coursesList: null,
 
       // Actions (not persisted)
       handleUserType: (type) => set({ userType: type }),
+      handleUserName: (name) => set({ userName: name }),
       setAccessToken: (token) => set({ accessToken: token }),
       setCoursesList: (courses) => set({ coursesList: courses }),
-      logout: () => set({ accessToken: null }),
+      // logout: () => set({ accessToken: null }),
     }),
     {
       name: "user-store",

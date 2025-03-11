@@ -24,10 +24,12 @@ const Login = () => {
   const onSubmit = async (data) => {
     setLoading(true);
     try {
+      complaintStore.handleUserType(data.role);
       const response = await axiosInstance.post('/auth/signin', data);
       // console.log(response);
       if (response?.data.token) {
         complaintStore.setAccessToken(response.data.token);
+        complaintStore.handleUserName(response.data.data.name);
         router.push('/dashboard');
       }
   

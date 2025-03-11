@@ -1,13 +1,14 @@
 import React from 'react'
 import { Loading } from '.'
 
-const Button = ({ title, type, loading = false, clickAction = null, outlined = false }) => {
+const Button = ({ type, title = null, icon=null, es= null, loading = false, clickAction = null, outlined = false }) => {
   const handleClickAction = () => {
     if (clickAction) clickAction();
   }
   return (
-    <button type={type}  className={`btn ${!outlined ? 'primary-btn' : 'outline-btn'}`} onClick={handleClickAction}>
-      {loading ? <Loading /> : title}       
+    <button type={type}  className={`btn ${es} ${!outlined ? 'primary-btn' : 'outline-btn'} ${icon ? 'flex gap-1 items-center' : ''}`} onClick={handleClickAction}>
+      {icon && <img src={icon} alt='button icon' width={20} height={20} />}
+      {title && <span> {loading ? <Loading /> : title} </span>}
     </button>
   )
 }
