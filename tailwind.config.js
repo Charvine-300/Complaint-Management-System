@@ -21,13 +21,6 @@ module.exports = {
 				"4xl": "2.25rem",
 				"5xl": "3rem",
 			},
-			fontFamily: {
-				black: ["Fontspring-black", "sans-serif"],
-				light: ["Fontspring-light", "sans-serif"],
-				medium: ["Fontspring-medium", "sans-serif"],
-				regular: ["Fontspring-regular", "sans-serif"],
-				semibold: ["Fontspring-semibold", "sans-serif"],
-			},
 			screens: {
 				small: "376px",
 			},
@@ -67,6 +60,7 @@ module.exports = {
           300: "rgba(0, 0, 0, 0.5)",
           400: "rgba(0, 0, 0, 0.7)",
           500: "rgba(27, 28, 30, 1)",
+          600: 'rgba(16, 25, 40, 1)'
         },
         blue: {
           50: "rgb(247, 250, 253)",
@@ -172,7 +166,7 @@ module.exports = {
           800: "rgb(128, 5, 1)",
           900: "rgb(89, 16, 0)",
         },
-        grey: {
+        gray: {
           50: "rgb(249, 250, 251)",
           75: "rgb(247, 249, 252)",
           100: "rgb(240, 242, 245)",
@@ -180,9 +174,9 @@ module.exports = {
           300: "rgb(208, 213, 221)",
           400: "rgb(152, 162, 179)",
           500: "rgb(102, 113, 133)",
-          600: "rgb(71, 83, 103)",
+          600: "rgb(71, 83, 103, 1)",
           700: "rgb(52, 64, 84)",
-          800: "rgb(29, 39, 57)",
+          800: "rgb(16, 25, 40)",
           900: "rgb(16, 25, 40)",
         },
       },
