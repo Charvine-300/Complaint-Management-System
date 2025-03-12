@@ -3,6 +3,8 @@
 import React, { useState } from 'react'
 import useStore from '@/utils/ComplaintMgmtStore';
 import { useRouter } from 'next/navigation';
+import { Modal } from '@/components'
+
 
 const DashboardLayout = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -20,19 +22,19 @@ const DashboardLayout = ({ children }) => {
       <div className="flex w-full max-w-[1440px] mx-auto">
         {/* Sidebar */}
         <aside
-          className={`fixed inset-y-0 left-0 z-50 w-60 bg-white shadow-2xl transition-transform lg:relative lg:translate-x-0 
+          className={`fixed h-screen inset-y-0 left-0 z-80 w-60 bg-white transition-transform lg:relative lg:translate-x-0 border-r border-gray-200 
           ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}`}
         >
           <div className="flex flex-col h-full p-4">
-            <div className="my-5 flex justify-between items-center">
+            <div className="mb-5 flex justify-between items-center">
               <img src="/assets/icons/Full_Logo.svg" alt="Logo icon" width={120} height={40} className='lg:block hidden' />
 
               {/* Sidebar Toggle for Mobile */}
               <button
-                className="self-end mb-4 lg:hidden block ml-auto"
+                className="self-end my-2 lg:hidden block ml-auto"
                 onClick={() => setIsSidebarOpen(false)}
               >
-                <img src="/assets/icons/close.svg" alt="Close icon" width={20} height={20} />
+                <img src="/assets/icons/close.svg" alt="Close icon" width={25} height={25} />
               </button>
             </div>
 
@@ -50,7 +52,7 @@ const DashboardLayout = ({ children }) => {
             <div className="mt-auto p-2  cursor-pointer flex items-center justify-between">
               {/* <p>Logout</p> */}
               <div>
-                <p className='text-black-600 font-semibold'>Lisa Novak</p>
+                <p className='text-black-600 font-semibold'>{complaintStore.userName}</p>
                 <p className='capitalize text-gray-600'>{complaintStore.userType}</p>
               </div>
               <img src="/assets/icons/SignOut.svg" alt="Logout icon" className='cursor-pointer' onClick={logout} />
@@ -59,7 +61,7 @@ const DashboardLayout = ({ children }) => {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 p-6">
+        <main className="flex-1 p-6 relative">
           {/* Mobile Sidebar Toggle Button */}
           <div className="fixed top-0 left-0 w-full lg:hidden bg-white shadow-md z-50 px-4 py-1 flex justify-between items-center">
             {/* Mobile Sidebar Toggle Button */}
@@ -71,6 +73,7 @@ const DashboardLayout = ({ children }) => {
           </div>
           <div className="mt-[70px] lg:mt-0">
             {children}
+            <Modal />
           </div>
         </main>
       </div>

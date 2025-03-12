@@ -85,6 +85,10 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 500;
 }
 
+.modal-overlay {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
 @layer utilities {
   .input-field-group {
     @apply mb-4 flex gap-2 flex-col;

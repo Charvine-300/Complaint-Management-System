@@ -28,8 +28,13 @@ const Login = () => {
       const response = await axiosInstance.post('/auth/signin', data);
       // console.log(response);
       if (response?.data.token) {
-        complaintStore.setAccessToken(response.data.token);
-        complaintStore.handleUserName(response.data.data.name);
+          const userObject = {
+            id: response.data.data.id,
+            name: response.data.data.name,
+            token: response.data.token,
+            courses: response.data.data.courses
+          };
+          complaintStore.setUpdateUserData(userObject);
         router.push('/dashboard');
       }
   

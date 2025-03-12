@@ -1,6 +1,6 @@
 'use client';
 
-import { AuthLayout, Button } from '@/components';
+import { AuthLayout, Button, Loading } from '@/components';
 import React, { useEffect, useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import Link from 'next/link';
@@ -14,6 +14,8 @@ const Signup = () => {
   const complaintStore = useStore((state) => state);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [courseList, setCourseList] = useState([]);
+  const [coursesLoading, setCoursesLoading] = useState(false);
   const router = useRouter();
 
   const {
@@ -24,6 +26,18 @@ const Signup = () => {
     clearErrors,
     setError
   } = useForm();
+
+    
+  const getCourses = async () => {
+    setCoursesLoading(true);
+
+    await axiosInstance.get('/course/get-all')
+    .then((response) => {
+      setCourseList(response.data.data);
+    })
+    .catch((e) => toast.error(e.response.data.message || 'Failed to load courses'))
+    .finally(() => setCoursesLoading(false));
+  };
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -37,15 +51,20 @@ const Signup = () => {
     try {
       const response = await axiosInstance.post(`/auth/register/${complaintStore.userType.toLowerCase()}`, transformedData);
       toast.success(response.data.message);
-      router.push('/dashboard');
+      
+      if (response?.data.token) {
+        const userObject = {
+          id: response.data.data.id,
+          name: response.data.data.name,
+          token: response.data.token,
+          courses: response.data.data.courses
+        };
+        complaintStore.setUpdateUserData(userObject);
 
-      // TODO - Save access token
-      // if (response?.data.token) {
-        // complaintStore.setAccessToken(response.data.token);
-      // }
+        router.push('/dashboard');
+      }
 
     } catch (error) {
-      console.error('API Error:', error);
       toast.error(error.response.data.message || error.message || 'Signup failed');
       setLoading(false);
     }
@@ -61,7 +80,6 @@ const Signup = () => {
   const toggleDropdown = () => setIsOpen(!isOpen);
   const handleSelect = (course) => {
     setSelectedCourses((prevSelectedCourses) => {
-        // const currentCourses = getValues("courseIds") || [];
         const isSelected = prevSelectedCourses.some((c) => c.id === course.id);
       
         if (isSelected) {
@@ -106,17 +124,6 @@ const Signup = () => {
         }
     });
 };
-
-  
-  
-  
-  const getCourses = async () => {
-    await axiosInstance.get('/course/get-all')
-    .then((response) => {
-      // console.log(response.data.data);
-      complaintStore.setCoursesList(response.data.data);
-    });
-  }
   
   useEffect(() => {
     getCourses();
@@ -193,9 +200,12 @@ const Signup = () => {
 
            {/* List of courses Input */}
            <div className="input-field-group relative" ref={dropdownRef}>
-      <label className="label">
-        Select courses (min: {minCourses}, max: {maxCourses})
-      </label>
+          <div className="flex gap-3 items-center">
+            <label className="label">
+              Select courses (min: {minCourses}, max: {maxCourses})
+            </label>
+              {coursesLoading && <Loading color='border-blue-500' />}
+          </div>
       
       <div className="relative">
         <div
@@ -205,7 +215,7 @@ const Signup = () => {
   <div className='flex gap-3 flex-wrap w-[90%] max-h-[108px] overflow-y-auto'>
     {selectedCourses.map((item, index) => (
       <div className='bg-blue-300 text-sm flex px-3 py-1 rounded-sm gap-1 items-center' key={index}>
-        <p>{item.name}</p>
+        <p>{item.code}</p>
         <img src="/assets/icons/delete.svg" alt="delete icon" className='w-3 h-4 cursor-pointer' onClick={() => handleSelect(item)} />
       </div>
     ))}
@@ -226,7 +236,7 @@ const Signup = () => {
             ${isOpen ? "scale-100 opacity-100" : "scale-95 opacity-0 pointer-events-none"}
           `}
         >        
-          {complaintStore.coursesList && complaintStore.coursesList.map((course) => (
+          {courseList && courseList.map((course) => (
               <label key={course.id} className="flex items-center space-x-2 p-2 hover:bg-gray-100 cursor-pointer">
                 <input
                   type="checkbox"
@@ -234,7 +244,7 @@ const Signup = () => {
                   onChange={() => handleSelect(course)}
                   className="accent-blue-500"
                 />
-                <span>{course.name}</span>
+                <span>{`${course.code} - ${course.name}`}</span>
               </label>
             ))}
           </div>

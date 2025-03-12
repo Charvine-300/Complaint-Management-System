@@ -16,7 +16,7 @@ axiosInstance.interceptors.request.use(
     const { accessToken } = useStore.getState();
 
     if (accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}`;
+      config.headers.Authorization = `${accessToken}`;
     }
 
     return config;
@@ -33,9 +33,6 @@ axiosInstance.interceptors.response.use(
     if (error.response) {
       if (error.response.status === 401) {
         toast.error('Session expired. Please log in again.');
-
-        useAuthStore.getState().logout();
-
         window.location.href = '/auth/login';
       }
     }
