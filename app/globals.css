@@ -48,7 +48,7 @@
   font-display: swap;
 }
 
-input {
+input, textarea {
   outline: none !important
 }
 

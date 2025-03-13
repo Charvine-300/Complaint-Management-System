@@ -2,14 +2,23 @@
 
 import React, { useState } from 'react'
 import useStore from '@/utils/ComplaintMgmtStore';
-import { useRouter } from 'next/navigation';
-import { Modal } from '@/components'
+import { useRouter, usePathname } from 'next/navigation';
+import { Modal } from '@/components';
+import DashboardIcon from "../../public/assets/images/ChartBar.svg";
+import { formatIconName } from '@/utils/formatter';
 
 
 const DashboardLayout = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const complaintStore = useStore((state) => state);
   const router = useRouter();
+
+  const pathname = usePathname(); // Get current route
+
+  const navItems = [
+    { name: "Dashboard", path: "/dashboard" },
+    { name: "Complaints", path: "/complaints" },
+  ];
 
   const logout = () => {
     complaintStore.setAccessToken(null);
@@ -40,13 +49,25 @@ const DashboardLayout = ({ children }) => {
 
             {/* Sidebar Content */}
             <nav className="flex-grow mt-5 space-y-4">
-              <div className="flex p-2 gap-2 align-center bg-blue-100 rounded-md">
-                <img src="/assets/images/ChartBar.svg" alt="dashboard icon" />
-                <p className="text-blue-600">Dashboard</p>
-              </div>
-              {/* <a href="#" className="block px-2  text-gray-700">Settings</a>
-              <a href="#" className="block px-2  text-gray-700">Profile</a> */}
-            </nav>
+      {navItems.map(({ name, path }) => {
+        const isActive = pathname.includes(path);
+        return (
+          <div
+            key={path}
+            onClick={() => router.push(path)}
+            className={`flex p-2 gap-2 align-center rounded-md cursor-pointer ${
+              isActive ? "bg-blue-100 text-blue-600" : "text-gray-700"
+            }`}
+          >
+            {/* <img src="/assets/images/ChartBar.svg" alt={`${name} icon`} /> */}
+            <img src={formatIconName(name, isActive)} alt={name}  className="w-6 h-6" />
+            <p className={isActive ? "text-blue-600" : "text-gray-700"}>
+              {name}
+            </p>
+          </div>
+        );
+      })}
+    </nav>
 
             {/* Logout at Bottom */}
             <div className="mt-auto p-2  cursor-pointer flex items-center justify-between">

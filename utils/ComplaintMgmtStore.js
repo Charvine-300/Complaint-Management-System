@@ -25,7 +25,8 @@ const useStore = create(
         accessToken: data.token,
         userName: data.name,
         userID: data.id,
-        noOfCourses: data.courses.length
+        userType: data.type,
+        noOfCourses: data.courses.length,
       }),
       setCoursesList: (courses) => set({ coursesList: courses }),
       getComplaints: async () => {
@@ -33,11 +34,10 @@ const useStore = create(
           set({ loading: true });
           await axiosInstance.get('complaint/get-all')
           .then((response) => {
-            console.log(response.data.data);
             set({ complaints: response.data.data });
           });
         } catch (err) {
-          console.err(err);
+          console.log(err);
         } finally {
           set({ loading: false });
         }

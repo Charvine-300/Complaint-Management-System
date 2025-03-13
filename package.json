@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@svgr/webpack": "^8.1.0",
     "@tailwindcss/postcss": "^4.0.9",
     "axios": "^1.8.1",
     "lottie-react": "^2.4.1",

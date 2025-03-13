@@ -3,8 +3,10 @@
 import React from 'react'
 import { Button } from '@/components';
 import useStore from '@/utils/ComplaintMgmtStore';
+import { useRouter } from 'next/navigation';
 
 const ComplaintsTable = () => {
+  const router = useRouter();
   const complaintStore = useStore((state) => state);
 
   function findItem(id) {
@@ -15,7 +17,10 @@ const ComplaintsTable = () => {
 
   return (
     <div className='min-h-[60vh] relative'>
+      <div className="flex justify-between items-center">
       <h6 className='capitalize text-xl font-medium text-gray-900'>Complaints</h6>
+      <Button title='View all' outlined  clickAction={() => router.push('/complaints')}  icon="/assets/icons/ArrowUpRight.svg" es='!w-fit px-3 !py-1 !mt-0' />  
+      </div>
       <div className="overflow-x-auto mt-5 rounded-lg">
         <table className="w-full bg-white border border-gray-200 rounded-lg">
           {/* Table Header */}
@@ -37,8 +42,8 @@ const ComplaintsTable = () => {
                   <td className="px-4 py-3">{findItem(item.courseId)}</td>
                   <td className="px-4 py-3 hidden md:table-cell">
                     <span
-                      className={`px-3 py-1 rounded-full text-sm font-medium ${
-                        item.status === "Pending"
+                      className={`px-3 py-1 rounded-full lowercase text-sm font-medium ${
+                        item.status.toLowerCase() === "pending"
                           ? "bg-red-100 text-red-700"
                           : "bg-green-100 text-green-700"
                       }`}

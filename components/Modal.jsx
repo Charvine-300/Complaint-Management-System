@@ -21,8 +21,8 @@ const Modal = () => {
     
     if (!isOpen) return null;
   return (
-    <div className="absolute w-full h-screen inset-0 flex items-center justify-center modal-overlay z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg max-w-lg w-[85%] mx-auto" onClick={(e) => e.stopPropagation()}>
+    <div className="fixed w-screen h-screen inset-0 flex items-center justify-center modal-overlay z-80">
+      <div className="bg-white p-6 rounded-lg shadow-lg max-w-lg w-[90%] mx-auto" onClick={(e) => e.stopPropagation()}>
         <div className="flex justify-between items-center">
           <h5 className="text-xl capitalize">{title}</h5>
         <button
