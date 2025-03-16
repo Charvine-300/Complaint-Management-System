@@ -61,6 +61,7 @@ const ComplaintDetails = () => {
           <div className="detail-cell">
           <div className="detail-item">
               <p>Status:</p>
+              {/* TODO - update status colors */}
               <p  className={`px-3 py-1 w-fit rounded-full lowercase text-md font-medium ${
                         complaintStore.complaintDetails?.status.toLowerCase() === "pending"
                           ? "bg-red-100 text-red-700"

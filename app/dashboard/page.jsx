@@ -3,10 +3,14 @@
 import React, { useEffect } from 'react'
 import { DashboardLayout, StatsCard, Button, ComplaintsTable, LogComplaint } from '@/components'
 import useStore from '@/utils/ComplaintMgmtStore';
-import Lottie from "lottie-react";
+// import Lottie from "lottie-react";
 import loading from '../../public/assets/lotties/loading.json';
 import { useModal } from '@/utils/ModalContext';
 import { useRouter } from 'next/navigation';
+import dynamic from "next/dynamic";
+
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
+
 
 const Dashboard = () => {
   const router = useRouter();

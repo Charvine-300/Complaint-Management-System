@@ -130,20 +130,23 @@ const Signup = () => {
   }, []);
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsOpen(false);
+    if (typeof window !== "undefined" && typeof document !== "undefined") {
+      const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+          setIsOpen(false);
+        }
+      };
+  
+      if (isOpen) {
+        document.addEventListener("mousedown", handleClickOutside);
       }
-    };
-
-    if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
+  
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
     }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
   }, [isOpen]);
+  
   return (
     <AuthLayout>
       <div className="mx-auto">

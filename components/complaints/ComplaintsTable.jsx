@@ -47,6 +47,7 @@ const ComplaintsTable = ({ all = false }) => {
                   <td className="px-4 py-3">{item.title}</td>
                   <td className="px-4 py-3">{findItem(item.courseId)}</td>
                   <td className="px-4 py-3 hidden md:table-cell">
+                    {/* TODO - update status colors */}
                     <span
                       className={`px-3 py-1 rounded-full lowercase text-sm font-medium ${
                         item.status.toLowerCase() === "pending"
