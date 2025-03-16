@@ -12,6 +12,7 @@ import { useModal } from '@/utils/ModalContext';
 const LogComplaint = () => {
   const [loading, setLoading] = useState(false);
   const complaintStore = useStore((state) => state);
+  const defaultComplaint = complaintStore.complaintDetails || {};
   const { closeModal } = useModal();
 
   const typesList = ['Assessments and Exams', 'Projects', 'Presentations', 'Other'];
@@ -21,11 +22,14 @@ const LogComplaint = () => {
     handleSubmit,
     watch,
     formState: { errors },
-  }  = useForm({ mode: "onChange" });
+  }  = useForm({ 
+    mode: "onChange",
+    defaultValues: defaultComplaint,
+  });
 
   const onSubmit = async (data) => {
     // console.log(data);
-
+    // TODO - Update to either log or edit complaints
     setLoading(true);
     try {
       await axiosInstance.post('/complaint/create', data)

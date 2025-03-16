@@ -33,7 +33,7 @@ const Modal = () => {
               </button>
         </div>
         {/* Render dynamic content */}
-        <div className="my-5">
+        <div className="mt-5">
           {content && content()}  
         </div>
 

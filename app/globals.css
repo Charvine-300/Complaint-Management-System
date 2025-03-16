@@ -111,5 +111,13 @@ h1, h2, h3, h4, h5, h6 {
   .outline-btn {
     @apply bg-white border border-blue-500 text-blue-500;
   }
+
+  .detail-cell {
+    @apply flex flex-col gap-5 md:flex-row md:items-center md:justify-between my-5 md:mb-12 w-full;
+  }
+
+  .detail-item {
+    @apply w-full md:w-[47%] flex flex-col gap-2;
+  }
 }
 

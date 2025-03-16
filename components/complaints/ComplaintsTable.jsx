@@ -5,7 +5,7 @@ import { Button } from '@/components';
 import useStore from '@/utils/ComplaintMgmtStore';
 import { useRouter } from 'next/navigation';
 
-const ComplaintsTable = () => {
+const ComplaintsTable = ({ all = false }) => {
   const router = useRouter();
   const complaintStore = useStore((state) => state);
 
@@ -13,14 +13,20 @@ const ComplaintsTable = () => {
     let courseDetails = complaintStore.coursesList.find(item => item.id === id);
     // console.log('Course code found!', courseDetails, complaintStore.coursesList, id);
     return courseDetails.code;
-  }
+  };
+
+  const handleComplaintDetails = (id, courseId) => {
+    let code = findItem(courseId);
+    complaintStore.getComplaintDetails(id, complaintStore.complaints, code);
+    router.push(`/complaints/${id}`);
+  };
 
   return (
     <div className='min-h-[60vh] relative'>
-      <div className="flex justify-between items-center">
+      {!all && <div className="flex justify-between items-center">
       <h6 className='capitalize text-xl font-medium text-gray-900'>Complaints</h6>
       <Button title='View all' outlined  clickAction={() => router.push('/complaints')}  icon="/assets/icons/ArrowUpRight.svg" es='!w-fit px-3 !py-1 !mt-0' />  
-      </div>
+      </div>}
       <div className="overflow-x-auto mt-5 rounded-lg">
         <table className="w-full bg-white border border-gray-200 rounded-lg">
           {/* Table Header */}
@@ -54,7 +60,7 @@ const ComplaintsTable = () => {
 
                   {/* Action Column */}
                   <td className="px-4 py-3 text-center relative">
-                    <Button title='View' outlined es='!w-fit px-5 !mt-0' />    
+                    <Button title='View' outlined es='!w-fit px-5 !mt-0' clickAction={() => handleComplaintDetails(item.id, item.courseId)} />
                   </td>
                 </tr>
               );

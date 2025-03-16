@@ -13,6 +13,7 @@ const useStore = create(
       loading: false,
       noOfCourses: 0,
       complaints: null,
+      complaintDetails: null,
       accessToken: null,
       coursesList: null,
 
@@ -42,6 +43,18 @@ const useStore = create(
           set({ loading: false });
         }
       },
+      getComplaintDetails: async (id, userComplaints, code) => {
+        const foundComplaint = userComplaints.find(x => x.id == id);
+      
+        if (foundComplaint) {
+          set({ complaintDetails: { ...foundComplaint, code } });
+        } else {
+          set({ complaintDetails: null }); // Handle the case where no complaint is found
+        }
+      },   
+      clearComplaintDetails: () => {
+        set({ complaintDetails: null });
+      }
     }),
     {
       name: "user-store",

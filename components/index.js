@@ -6,10 +6,12 @@ import Loading from './Loading'
 import Button from "./Button";
 import Modal from './Modal';
 import StatsCard from "./dashboard/StatsCard";
-import ComplaintsTable from "./dashboard/ComplaintsTable";
+import ComplaintsTable from "./complaints/ComplaintsTable";
+import ScrollToTop from "./ScrollToTop";
 
 // Modals
-import LogComplaint from "./dashboard/LogComplaint";
+import LogComplaint from "./complaints/LogComplaint";
+import DeleteComplaint from "./complaints/DeleteComplaint";
 
 export {
     AuthLayout,
@@ -19,5 +21,7 @@ export {
     StatsCard,
     ComplaintsTable,
     Modal,
-    LogComplaint
+    LogComplaint,
+    ScrollToTop,
+    DeleteComplaint,
 }
