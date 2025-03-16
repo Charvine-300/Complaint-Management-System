@@ -4,18 +4,22 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import axiosInstance from "./axiosInstance";
 
+const initialState = {
+  userType: "",
+  userName: "",
+  userID: "",
+  loading: false,
+  noOfCourses: 0,
+  complaints: null,
+  complaintDetails: null,
+  accessToken: null,
+  coursesList: null,
+};
+
 const useStore = create(
   persist(
     (set) => ({
-      userType: "",
-      userName: "",
-      userID: "",
-      loading: false,
-      noOfCourses: 0,
-      complaints: null,
-      complaintDetails: null,
-      accessToken: null,
-      coursesList: null,
+      ...initialState,
 
       // Actions (not persisted)
       handleUserType: (type) => set({ userType: type }),
@@ -54,7 +58,11 @@ const useStore = create(
       },   
       clearComplaintDetails: () => {
         set({ complaintDetails: null });
-      }
+      },
+      resetStore: () => {
+        set(initialState);
+        sessionStorage.removeItem("user-store"); // Clear persisted state
+      },
     }),
     {
       name: "user-store",
