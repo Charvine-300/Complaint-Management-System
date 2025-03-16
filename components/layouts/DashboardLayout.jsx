@@ -21,7 +21,7 @@ const DashboardLayout = ({ children }) => {
   ];
 
   const logout = () => {
-    complaintStore.setAccessToken(null);
+    complaintStore.resetStore();
     router.push('./auth/login');
   }
 
