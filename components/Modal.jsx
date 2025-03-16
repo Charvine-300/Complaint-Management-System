@@ -8,15 +8,17 @@ const Modal = () => {
   
     // Disable scrolling when the modal is open
     useEffect(() => {
+      if (typeof window !== "undefined" && typeof document !== "undefined") {
         if (isOpen) {
-            document.body.style.overflow = 'hidden'; // Prevent scrolling
+          document.body.style.overflow = 'hidden'; // Prevent scrolling
         } else {
-            document.body.style.overflow = ''; // Restore scrolling
+          document.body.style.overflow = ''; // Restore scrolling
         }
-        
+  
         return () => {
-            document.body.style.overflow = ''; // Cleanup on unmount
+          document.body.style.overflow = ''; // Cleanup on unmount
         };
+      }
     }, [isOpen]);
     
     if (!isOpen) return null;

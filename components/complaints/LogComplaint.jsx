@@ -25,6 +25,7 @@ const LogComplaint = () => {
   }  = useForm({ 
     mode: "onChange",
     defaultValues: defaultComplaint,
+    
   });
 
   const onSubmit = async (data) => {
