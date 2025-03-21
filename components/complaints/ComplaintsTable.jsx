@@ -4,20 +4,14 @@ import React from 'react'
 import { Button } from '@/components';
 import useStore from '@/utils/ComplaintMgmtStore';
 import { useRouter } from 'next/navigation';
+import { findItem } from '@/utils/formatter';
 
 const ComplaintsTable = ({ all = false }) => {
   const router = useRouter();
   const complaintStore = useStore((state) => state);
 
-  function findItem(id) {
-    let courseDetails = complaintStore.coursesList.find(item => item.id === id);
-    // console.log('Course code found!', courseDetails, complaintStore.coursesList, id);
-    return courseDetails.code;
-  };
-
   const handleComplaintDetails = (id, courseId) => {
-    let code = findItem(courseId);
-    complaintStore.getComplaintDetails(id, complaintStore.complaints, code);
+    complaintStore.setCourseID(courseId);
     router.push(`/complaints/${id}`);
   };
 

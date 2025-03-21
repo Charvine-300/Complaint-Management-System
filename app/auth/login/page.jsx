@@ -40,9 +40,9 @@ const Login = () => {
   
       return response.data;
     } catch (error) {
-      // console.error('API Error:', error);
+      // console.log('API Error:', error);
 
-      toast.error(error.response.data.message || 'Login failed');
+      toast.error(error?.response?.data?.message || error.message);
       setLoading(false);
     }
   };
