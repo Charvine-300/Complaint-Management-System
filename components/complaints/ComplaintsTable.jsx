@@ -41,13 +41,22 @@ const ComplaintsTable = ({ all = false }) => {
                   <td className="px-4 py-3">{item.title}</td>
                   <td className="px-4 py-3">{findItem(item.courseId)}</td>
                   <td className="px-4 py-3 hidden md:table-cell">
-                    {/* TODO - update status colors */}
                     <span
-                      className={`px-3 py-1 rounded-full lowercase text-sm font-medium ${
-                        item.status.toLowerCase() === "pending"
-                          ? "bg-red-100 text-red-700"
-                          : "bg-green-100 text-green-700"
-                      }`}
+                 className={`px-3 py-1 rounded-full lowercase text-sm font-medium ${
+                  (() => {
+                    switch (item.status.toLowerCase()) {
+                      case "submitted":
+                        return "bg-red-100 text-red-700"; // Red for submitted
+                      case "pending":
+                        return "bg-yellow-100 text-yellow-700"; // Yellow for pending
+                      case "resolved":
+                        return "bg-green-100 text-green-700"; // Green for resolved
+                      default:
+                        return "bg-gray-100 text-gray-700"; // Default (in case of unexpected status)
+                    }
+                  })()
+                }`}
+                
                     >
                       {item.status}
                     </span>

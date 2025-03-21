@@ -78,12 +78,20 @@ const ComplaintDetails = () => {
           <div className="detail-cell">
           <div className="detail-item">
               <p>Status:</p>
-              {/* TODO - update status colors */}
-              <p  className={`px-3 py-1 w-fit rounded-full lowercase text-md font-medium ${
-                        complaintStore.complaintDetails?.status.toLowerCase() === "pending"
-                          ? "bg-red-100 text-red-700"
-                          : "bg-green-100 text-green-700"
-                      }`}>{complaintStore.complaintDetails?.status}</p>
+              <p    className={`px-3 py-1 w-fit rounded-full lowercase text-sm font-medium ${
+                  (() => {
+                    switch (complaintStore.complaintDetails?.status.toLowerCase()) {
+                      case "submitted":
+                        return "bg-red-100 text-red-700"; // Red for submitted
+                      case "pending":
+                        return "bg-yellow-100 text-yellow-700"; // Yellow for pending
+                      case "resolved":
+                        return "bg-green-100 text-green-700"; // Green for resolved
+                      default:
+                        return "bg-gray-100 text-gray-700"; // Default (in case of unexpected status)
+                    }
+                  })()
+                }`}>{complaintStore.complaintDetails?.status}</p>
             </div>
             <div className="detail-item">
               <p>Complaint Type:</p>
