@@ -12,6 +12,7 @@ import ScrollToTop from "./ScrollToTop";
 // Modals
 import LogComplaint from "./complaints/LogComplaint";
 import DeleteComplaint from "./complaints/DeleteComplaint";
+import ResolveComplaint from "./complaints/ResolveComplaint";
 
 export {
     AuthLayout,
@@ -24,4 +25,5 @@ export {
     LogComplaint,
     ScrollToTop,
     DeleteComplaint,
+    ResolveComplaint
 }

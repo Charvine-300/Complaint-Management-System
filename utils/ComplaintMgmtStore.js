@@ -9,8 +9,11 @@ const initialState = {
   userName: "",
   userID: "",
   loading: false,
+  detailsLoading: false,
+  isEditing: false,
   noOfCourses: 0,
   complaints: null,
+  courseID: null,
   complaintDetails: null,
   accessToken: null,
   coursesList: null,
@@ -25,14 +28,15 @@ const useStore = create(
       handleUserType: (type) => set({ userType: type }),
       handleUserName: (name) => set({ userName: name }),
       setAccessToken: (token) => set({ accessToken: token }),
-      setUpdateUserData: (data) => set({
-        coursesList: data.courses,
-        accessToken: data.token,
-        userName: data.name,
-        userID: data.id,
-        userType: data.type,
-        noOfCourses: data.courses.length,
-      }),
+      setUpdateUserData: (data) => 
+        set((state) => ({
+          coursesList: data.courses,
+          accessToken: data.token,
+          userName: data.name,
+          userID: data.id,
+          noOfCourses: data.courses.length,
+          userType: data.type !== undefined ? data.type : state.userType, // Only update if `data.type` exists
+        })),      
       setCoursesList: (courses) => set({ coursesList: courses }),
       getComplaints: async () => {
         try {
@@ -47,18 +51,31 @@ const useStore = create(
           set({ loading: false });
         }
       },
-      getComplaintDetails: async (id, userComplaints, code) => {
-        const foundComplaint = userComplaints.find(x => x.id == id);
-      
-        if (foundComplaint) {
-          set({ complaintDetails: { ...foundComplaint, code } });
-        } else {
-          set({ complaintDetails: null }); // Handle the case where no complaint is found
+      getComplaintDetails: async (id, code) => {
+        try {
+          set({ detailsLoading: true });
+          await axiosInstance.get(`complaint/get/${id}`)
+          .then((response) => {
+            set({ complaintDetails: { ...response.data.data, code } });
+          });
+        } catch (err) {
+          console.log(err);
+        } finally {
+          set({ detailsLoading: false });
         }
-      },   
+      }, 
       clearComplaintDetails: () => {
         set({ complaintDetails: null });
       },
+      clearComplaints: () => {
+        set({ complaints: null })
+      },
+      setCourseID: (courseID) => {
+        set({ courseID });
+      },
+      setIsEditing: (status) => {
+        set({ isEditing: status });
+      },      
       resetStore: () => {
         set(initialState);
         sessionStorage.removeItem("user-store"); // Clear persisted state

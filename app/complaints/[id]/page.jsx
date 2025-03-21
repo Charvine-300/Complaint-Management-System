@@ -1,13 +1,15 @@
 "use client";
 
 import React, { useEffect } from 'react'
-import { DashboardLayout, StatsCard, Button, ComplaintsTable, LogComplaint, DeleteComplaint } from '@/components'
+import { DashboardLayout, Button, LogComplaint, DeleteComplaint, ResolveComplaint } from '@/components'
 import { useParams, useRouter } from "next/navigation";
 import useStore from '@/utils/ComplaintMgmtStore';
-import Lottie from "lottie-react";
 import loading from '../../../public/assets/lotties/loading.json';
 import { useModal } from '@/utils/ModalContext';
-import { formatDate } from '@/utils/formatter';
+import { findItem, formatDate } from '@/utils/formatter';
+import dynamic from "next/dynamic";
+
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 
 const ComplaintDetails = () => {
@@ -16,24 +18,33 @@ const ComplaintDetails = () => {
   const { openModal } = useModal();
   const complaintStore = useStore((state) => state);
 
-  // TODO - Add get complaint details API
+  const handleEditModal = () => {
+    complaintStore.setIsEditing(true);
+    openModal("edit Complaint", () => <LogComplaint />);
+  }
 
+  useEffect(() => {
+    let code = findItem(complaintStore.courseID);
+    complaintStore.getComplaintDetails(id, code);
+  }, []);
   return (
     <>
       <DashboardLayout>
+                {!complaintStore.detailsLoading ? <>
+
         <div className="border-b border-gray-200 py-3 flex justify-between items-center">
           <div className="flex gap-2 items-center">
             <img src="/assets/icons/arrow-left.svg" alt="Back icon" className='cursor-pointer' onClick={() => router.back()} />
             <h1 className='capitalize text-2xl font-medium text-gray-900'>Complaint Details</h1>
           </div>
-                          {(complaintStore.userType ?? "").toLowerCase() === "student" && (
+                          {(complaintStore.userType ?? "").toLowerCase() === "student" ? 
           <div className="flex gap-3 items-center">
                             <Button
                             title="Edit Complaint"
                             type="button"
                             icon="/assets/icons/edit.svg"
                             es="!text-[0px] md:!text-base !w-fit px-2 md:px-5 !mt-0 flex"
-                            clickAction={() => openModal("edit Complaint", () => <LogComplaint />)}
+                            clickAction={handleEditModal}
                             />
                              <Button
                             title="Delete Complaint"
@@ -44,7 +55,13 @@ const ComplaintDetails = () => {
                             clickAction={() => openModal("delete Complaint", () => <DeleteComplaint />)}
                             />
           </div>
-                          )}
+                          :       <Button
+                          title="Resolve Complaint"
+                          type="button"
+                          icon="/assets/icons/resolve.svg"
+                          es="!text-[0px] md:!text-base !w-fit px-2 md:px-5 !mt-0 flex"
+                          clickAction={() => openModal("resolve complaint", () => <ResolveComplaint />)}
+                          />}
                         </div>
         <div className='m-8'>
           <div className="detail-cell">
@@ -61,12 +78,20 @@ const ComplaintDetails = () => {
           <div className="detail-cell">
           <div className="detail-item">
               <p>Status:</p>
-              {/* TODO - update status colors */}
-              <p  className={`px-3 py-1 w-fit rounded-full lowercase text-md font-medium ${
-                        complaintStore.complaintDetails?.status.toLowerCase() === "pending"
-                          ? "bg-red-100 text-red-700"
-                          : "bg-green-100 text-green-700"
-                      }`}>{complaintStore.complaintDetails?.status}</p>
+              <p    className={`px-3 py-1 w-fit rounded-full lowercase text-sm font-medium ${
+                  (() => {
+                    switch (complaintStore.complaintDetails?.status.toLowerCase()) {
+                      case "submitted":
+                        return "bg-red-100 text-red-700"; // Red for submitted
+                      case "pending":
+                        return "bg-yellow-100 text-yellow-700"; // Yellow for pending
+                      case "resolved":
+                        return "bg-green-100 text-green-700"; // Green for resolved
+                      default:
+                        return "bg-gray-100 text-gray-700"; // Default (in case of unexpected status)
+                    }
+                  })()
+                }`}>{complaintStore.complaintDetails?.status}</p>
             </div>
             <div className="detail-item">
               <p>Complaint Type:</p>
@@ -77,7 +102,7 @@ const ComplaintDetails = () => {
           
           <div className="detail-cell">
           <div className="detail-item">
-            <p>Date & Time:</p>
+            <p>Created at:</p>
             <p className="recoleta-medium">{formatDate(complaintStore.complaintDetails?.createdAt)}</p>
             </div>
             <div className="detail-item">
@@ -86,6 +111,12 @@ const ComplaintDetails = () => {
             </div>
           </div>
         </div>
+                </> : <div className="h-[80vh] w-full flex justify-center items-center">
+                          <div>
+                          <Lottie animationData={loading} loop={true} />
+                          <h1 className='capitalize text-2xl font-medium text-gray-900 text-center'>fetching complaint details...</h1>
+                          </div>
+                        </div>}
       </DashboardLayout>
     </>
   );

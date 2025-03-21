@@ -7,6 +7,7 @@ import useStore from '@/utils/ComplaintMgmtStore';
 import toast from 'react-hot-toast';
 import axiosInstance from '@/utils/axiosInstance';
 import { useModal } from '@/utils/ModalContext';
+import { findItem } from '@/utils/formatter';
 
 
 const LogComplaint = () => {
@@ -29,15 +30,32 @@ const LogComplaint = () => {
   });
 
   const onSubmit = async (data) => {
-    // console.log(data);
-    // TODO - Update to either log or edit complaints
     setLoading(true);
+    let requestData = data;
+    if (complaintStore.isEditing) {
+      requestData = {
+        title: data.title,
+        complaintId: defaultComplaint.id,
+        type: data.type,
+        details: data.details
+      }
+    }
+
     try {
-      await axiosInstance.post('/complaint/create', data)
+      await axiosInstance.post(`/complaint/${defaultComplaint ? 'edit' : 'create'}`, requestData)
       .then((res) => {
         toast.success( res.data.message  || "Complaint logged successfully!");
         closeModal();
-        complaintStore.getComplaints();
+
+        if (complaintStore.isEditing) {
+          complaintStore.setIsEditing(false);
+          let code = findItem(complaintStore.courseID);
+
+          complaintStore.clearComplaints();
+          complaintStore.getComplaintDetails(defaultComplaint.id, code);
+        } else { 
+          complaintStore.getComplaints();
+        }
       });
     } catch (error) {
       toast.error(error.response.data.message || 'Complaint Log failed');
@@ -100,26 +118,37 @@ const LogComplaint = () => {
   </div>
 
 {/* Course for Complaint */}
-  <div className="input-field-group">
-    <label className="label">Course</label>
+<div className="input-field-group">
+  <label className="label">Course</label>
+  
+  {complaintStore.isEditing ? (
+    // Show text if editing a complaint
+    <p className="text-gray-700 text-sm">
+    {complaintStore.coursesList
+      .find(course => course.id === watch("courseId")) 
+      ? `${complaintStore.coursesList.find(course => course.id === watch("courseId")).code} - ${complaintStore.coursesList.find(course => course.id === watch("courseId")).name}`
+      : "Course not found"}
+  </p>
+  ) : (
+    // Show radio buttons if creating a new complaint
     <div className="flex flex-col gap-4">
-      {complaintStore.coursesList.map(item => {
-        return (
-          <label className="flex items-center gap-2 text-sm" key={item.id}>
-            <input
-              type="radio"
-              value={item.id}
-              {...register("courseId", { required: "Course is required" })}
-              className="radio-input cursor-pointer"
-            />
-            {`${item.code} - ${item.name}`}
-          </label>
-        )
-      })}
+      {complaintStore.coursesList.map(item => (
+        <label className="flex items-center gap-2 text-sm" key={item.id}>
+          <input
+            type="radio"
+            value={item.id}
+            {...register("courseId", { required: "Course is required" })}
+            className="radio-input cursor-pointer"
+          />
+          {`${item.code} - ${item.name}`}
+        </label>
+      ))}
     </div>
+  )}
 
   {errors.courseId && <p className="text-red-500 text-sm">{errors.courseId.message}</p>}
-  </div>
+</div>
+
 
 {/* Complaint Details Field */}
 <div className="input-field-group">

@@ -21,8 +21,7 @@ const DashboardLayout = ({ children }) => {
   ];
 
   const logout = () => {
-    complaintStore.resetStore();
-    router.push('./auth/login');
+    router.push('/auth/login');
   }
 
   return (
