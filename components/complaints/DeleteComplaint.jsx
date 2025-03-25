@@ -29,7 +29,6 @@ const DeleteComplaint = () => {
       toast.error(error.response.data.message || 'Complaint Delete failed');
     } finally {
       setLoading(false);
-      console.log(loading);
     }
   };
 

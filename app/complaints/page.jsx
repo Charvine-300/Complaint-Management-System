@@ -15,7 +15,7 @@ const Complaints = () => {
 
   const handleComplaint = () => {
     complaintStore.clearComplaintDetails();
-    openModal("log Complaint", () => <LogComplaint />);
+    openModal("Lodge Complaint", () => <LogComplaint />);
   };
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const Complaints = () => {
                   <h1 className='capitalize text-2xl font-medium text-gray-900'>All Complaints</h1>
                   {(complaintStore.userType ?? "").toLowerCase() === "student" && (
           <Button
-            title="Log Complaint"
+            title="Lodge Complaint"
             type="button"
             icon="/assets/icons/plus.svg"
             es="!text-[0px] md:!text-base !w-fit px-5 !mt-0 flex"

@@ -13,6 +13,7 @@ import ScrollToTop from "./ScrollToTop";
 import LogComplaint from "./complaints/LogComplaint";
 import DeleteComplaint from "./complaints/DeleteComplaint";
 import ResolveComplaint from "./complaints/ResolveComplaint";
+import FilterComponent from "./complaints/FilterComponent";
 
 export {
     AuthLayout,
@@ -25,5 +26,6 @@ export {
     LogComplaint,
     ScrollToTop,
     DeleteComplaint,
-    ResolveComplaint
+    ResolveComplaint,
+    FilterComponent
 }

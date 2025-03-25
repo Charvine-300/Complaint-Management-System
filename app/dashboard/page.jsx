@@ -5,7 +5,6 @@ import { DashboardLayout, StatsCard, Button, ComplaintsTable, LogComplaint } fro
 import useStore from '@/utils/ComplaintMgmtStore';
 import loading from '../../public/assets/lotties/loading.json';
 import { useModal } from '@/utils/ModalContext';
-import { useRouter } from 'next/navigation';
 import dynamic from "next/dynamic";
 
 const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
@@ -25,7 +24,7 @@ const Dashboard = () => {
 
   const handleComplaint = () => {
     complaintStore.clearComplaintDetails();
-    openModal("log Complaint", () => <LogComplaint />);
+    openModal("Lodge Complaint", () => <LogComplaint />);
   };
 
   return (
@@ -36,7 +35,7 @@ const Dashboard = () => {
           <h1 className='capitalize text-2xl font-medium text-gray-900'>{complaintStore.userType} dashboard</h1>
           {(complaintStore.userType ?? "").toLowerCase() === "student" && (
   <Button
-    title="Log Complaint"
+    title="Lodge Complaint"
     type="button"
     icon="/assets/icons/plus.svg"
     es="!text-[0px] md:!text-base !w-fit px-5 !mt-0 flex"
@@ -49,9 +48,9 @@ const Dashboard = () => {
           <h3 className='capitalize text-gray-900 text-lg'>{complaintStore.userType} statistics</h3>
           <div className="mt-5 flex gap-3 flex-col md:flex-row flex-wrap">
             <StatsCard title='No. of courses' value={complaintStore.noOfCourses || 0} icon='/assets/icons/grey-clipboard.svg' />
-            <StatsCard title='Logged complaints' value={92} icon='/assets/icons/blue-clipboard.svg' />
-            <StatsCard title='Pending complaints' value={92} icon='/assets/icons/red-clipboard.svg' />
-            <StatsCard title='Resolved complaints' value={92} icon='/assets/icons/green-clipboard.svg' />
+            <StatsCard title='Logged complaints' value={complaintStore.loggedComplaints || 0} icon='/assets/icons/blue-clipboard.svg' />
+            <StatsCard title='Pending complaints' value={complaintStore.pendingComplaints || 0} icon='/assets/icons/red-clipboard.svg' />
+            <StatsCard title='Resolved complaints' value={complaintStore.resolvedComplaints || 0} icon='/assets/icons/green-clipboard.svg' />
           </div>
         </div>
 

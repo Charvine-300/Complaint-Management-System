@@ -11,7 +11,7 @@ const ResolveComplaint = () => {
 
   // TODO - Integrate function for Resolve Complaint feature
   const handleResolve = () => {
-    let code = findItem(complaintStore.courseID);
+    let code = findItem(complaintStore.courseID, true);
     
     complaintStore.clearComplaints();
     complaintStore.getComplaintDetails(defaultComplaint.id, code)

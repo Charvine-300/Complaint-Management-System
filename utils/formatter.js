@@ -10,10 +10,15 @@ export const formatDate = (dateString) => {
   return moment(dateString).format("Do MMMM, YYYY HH:mm");
 };
 
-export const findItem = (id) => {
-  let courseDetails = useStore.getState().coursesList.find(item => item.id === id);
-  // console.log('Course code found!', courseDetails, id);
-  return courseDetails.code ?? null;
+export const findItem = (id, showTitle = false) => {
+  const { coursesList, courseID } = useStore.getState();
+  const courseId = id ?? courseID;
+  const courseDetails = coursesList.find(item => item.id === courseId);
+
+  let fullTitle = `${courseDetails.code} ${courseDetails.name}` ?? null;
+
+  return showTitle ? fullTitle : courseDetails.code;
 };
+
 
   

@@ -12,6 +12,9 @@ const initialState = {
   detailsLoading: false,
   isEditing: false,
   noOfCourses: 0,
+  loggedComplaints: 0,
+  pendingComplaints: 0,
+  resolvedComplaints: 0,
   complaints: null,
   courseID: null,
   complaintDetails: null,
@@ -41,16 +44,23 @@ const useStore = create(
       getComplaints: async () => {
         try {
           set({ loading: true });
-          await axiosInstance.get('complaint/get-all')
-          .then((response) => {
-            set({ complaints: response.data.data });
+      
+          const response = await axiosInstance.get("complaint/get-all");
+          const complaints = response.data.data;
+      
+          set({
+            complaints, 
+            loggedComplaints: complaints.length,
+            pendingComplaints: complaints.filter(complaint => complaint.status.toLowerCase() === "pending").length,
+            resolvedComplaints: complaints.filter(complaint => complaint.status.toLowerCase() === "resolved").length,
           });
+      
         } catch (err) {
-          console.log(err);
+          console.error(err);
         } finally {
           set({ loading: false });
         }
-      },
+      },      
       getComplaintDetails: async (id, code) => {
         try {
           set({ detailsLoading: true });
