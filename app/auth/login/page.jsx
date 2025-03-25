@@ -1,7 +1,7 @@
 'use client';
 
 import { AuthLayout, Button } from '@/components';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Link from 'next/link';
 import axiosInstance from '@/utils/axiosInstance';
@@ -46,6 +46,10 @@ const Login = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    complaintStore.resetStore(); // Clear saved state
+  }, []);
 
   return (
     <AuthLayout>

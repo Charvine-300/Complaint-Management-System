@@ -24,7 +24,7 @@ const ComplaintDetails = () => {
   }
 
   useEffect(() => {
-    let code = findItem(complaintStore.courseID);
+    let code = findItem(complaintStore.courseID, true);
     complaintStore.getComplaintDetails(id, code);
   }, []);
   return (
@@ -37,25 +37,25 @@ const ComplaintDetails = () => {
             <img src="/assets/icons/arrow-left.svg" alt="Back icon" className='cursor-pointer' onClick={() => router.back()} />
             <h1 className='capitalize text-2xl font-medium text-gray-900'>Complaint Details</h1>
           </div>
-                          {(complaintStore.userType ?? "").toLowerCase() === "student" ? 
+                          {(complaintStore.userType ?? "").toLowerCase() === "student" && complaintStore.userID === complaintStore.complaintDetails?.studentId &&
           <div className="flex gap-3 items-center">
                             <Button
-                            title="Edit Complaint"
-                            type="button"
-                            icon="/assets/icons/edit.svg"
-                            es="!text-[0px] md:!text-base !w-fit px-2 md:px-5 !mt-0 flex"
-                            clickAction={handleEditModal}
+                              title="Edit Complaint"
+                              type="button"
+                              icon="/assets/icons/edit.svg"
+                              es="!text-[0px] md:!text-base !w-fit px-2 md:px-5 !mt-0 flex"
+                              clickAction={handleEditModal}
                             />
                              <Button
-                            title="Delete Complaint"
-                            type="button"
-                            icon="/assets/icons/delete.svg"
-                            outlined
-                            es="!text-[0px] md:!text-base !w-fit px-2 md:px-5 !mt-0 flex"
-                            clickAction={() => openModal("delete Complaint", () => <DeleteComplaint />)}
+                              title="Delete Complaint"
+                              type="button"
+                              icon="/assets/icons/delete.svg"
+                              outlined
+                              es="!text-[0px] md:!text-base !w-fit px-2 md:px-5 !mt-0 flex"
+                              clickAction={() => openModal("delete Complaint", () => <DeleteComplaint />)}
                             />
-          </div>
-                          :       <Button
+          </div>}
+                                {(complaintStore.userType ?? "").toLowerCase() === "lecturer" && <Button
                           title="Resolve Complaint"
                           type="button"
                           icon="/assets/icons/resolve.svg"

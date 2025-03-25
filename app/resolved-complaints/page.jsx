@@ -1,22 +1,15 @@
 'use client'
 
 import React, { useEffect } from 'react'
-import { DashboardLayout, Button, ComplaintsTable, LogComplaint } from '@/components'
+import { DashboardLayout, ComplaintsTable } from '@/components'
 import loading from '../../public/assets/lotties/loading.json';
 import useStore from '@/utils/ComplaintMgmtStore';
-import { useModal } from '@/utils/ModalContext';
 import dynamic from "next/dynamic";
 
 const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
-const Complaints = () => {
-  const { openModal } = useModal();
+const ResolvedComplaints = () => {
   const complaintStore = useStore((state) => state);
-
-  const handleComplaint = () => {
-    complaintStore.clearComplaintDetails();
-    openModal("Lodge Complaint", () => <LogComplaint />);
-  };
 
   useEffect(() => {
       if (complaintStore && complaintStore.accessToken) {
@@ -31,18 +24,9 @@ const Complaints = () => {
       <DashboardLayout>
             {!complaintStore.loading && complaintStore.complaints ? <>
           <div className="border-b border-gray-200 py-3 flex justify-between items-center">
-                  <h1 className='capitalize text-2xl font-medium text-gray-900'>All Complaints</h1>
-                  {(complaintStore.userType ?? "").toLowerCase() === "student" && (
-          <Button
-            title="Lodge Complaint"
-            type="button"
-            icon="/assets/icons/plus.svg"
-            es="!text-[0px] md:!text-base !w-fit px-5 !mt-0 flex"
-            clickAction={handleComplaint}
-          />
-        )}
+                  <h1 className='capitalize text-2xl font-medium text-gray-900'>Resolved Complaints</h1>
                 </div>
-                <ComplaintsTable all />
+                <ComplaintsTable presetFilters={{ status: ['resolved'], course: [] }} all />
             </> :  <div className="h-[80vh] w-full flex justify-center items-center">
                       <div>
                       <Lottie animationData={loading} loop={true} />
@@ -54,4 +38,4 @@ const Complaints = () => {
   )
 }
 
-export default Complaints
+export default ResolvedComplaints

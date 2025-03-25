@@ -49,7 +49,7 @@ const LogComplaint = () => {
 
         if (complaintStore.isEditing) {
           complaintStore.setIsEditing(false);
-          let code = findItem(complaintStore.courseID);
+          let code = findItem(complaintStore.courseID, true);
 
           complaintStore.clearComplaints();
           complaintStore.getComplaintDetails(defaultComplaint.id, code);

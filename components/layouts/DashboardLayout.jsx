@@ -16,9 +16,14 @@ const DashboardLayout = ({ children }) => {
   const pathname = usePathname(); // Get current route
 
   const navItems = [
-    { name: "Dashboard", path: "/dashboard" },
-    { name: "Complaints", path: "/complaints" },
+    { name: "Dashboard", path: "/dashboard", iconName: "Dashboard" },
+    { name: "Complaints", path: "/complaints", iconName: "Complaints" },
+    ...( (complaintStore.userType ?? "").toLowerCase() === "lecturer" 
+        ? [{ name: "Resolved Complaints", path: "/resolved-complaints", iconName: "Resolved" }] 
+        : [] 
+    )
   ];
+  
 
   const logout = () => {
     router.push('/auth/login');
@@ -33,7 +38,7 @@ const DashboardLayout = ({ children }) => {
           className={`fixed h-screen inset-y-0 left-0 z-80 w-60 bg-white transition-transform lg:relative lg:translate-x-0 border-r border-gray-200 
           ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}`}
         >
-          <div className="flex flex-col h-full p-4">
+          <div className="flex flex-col h-full p-4 lg:pt-9">
             <div className="mb-5 flex justify-between items-center">
               <img src="/assets/icons/Full_Logo.svg" alt="Logo icon" width={120} height={40} className='lg:block hidden' />
 
@@ -48,7 +53,7 @@ const DashboardLayout = ({ children }) => {
 
             {/* Sidebar Content */}
             <nav className="flex-grow mt-5 space-y-4">
-      {navItems.map(({ name, path }) => {
+      {navItems.map(({ name, path, iconName }) => {
         const isActive = pathname.includes(path);
         return (
           <div
@@ -59,7 +64,7 @@ const DashboardLayout = ({ children }) => {
             }`}
           >
             {/* <img src="/assets/images/ChartBar.svg" alt={`${name} icon`} /> */}
-            <img src={formatIconName(name, isActive)} alt={name}  className="w-6 h-6" />
+            <img src={formatIconName(iconName, isActive)} alt={name}  className="w-6 h-6" />
             <p className={isActive ? "text-blue-600" : "text-gray-700"}>
               {name}
             </p>
