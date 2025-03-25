@@ -6,7 +6,7 @@ import { useModal } from '@/utils/ModalContext';
 import useStore from '@/utils/ComplaintMgmtStore';
 
 const ResolveComplaint = () => {
-  const { openModal, closeModal } = useModal();
+  const { closeModal } = useModal();
   const complaintStore = useStore((state) => state);
 
   // TODO - Integrate function for Resolve Complaint feature

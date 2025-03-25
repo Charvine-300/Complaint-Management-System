@@ -11,13 +11,13 @@ import dynamic from "next/dynamic";
 const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 
-const ComplaintsTable = ({ all = false }) => {
+const ComplaintsTable = ({ presetFilters = null, all = false }) => {
   const router = useRouter();
   const complaintStore = useStore((state) => state);
   
   const [searchTerm, setSearchTerm] = useState('');
   const [showFilter, setShowFilter] = useState(false);
-  const [filters, setFilters] = useState(null);
+  const [filters, setFilters] = useState(presetFilters);
 
   // Filter complaints based on search term
   let filteredComplaints = complaintStore.complaints.filter((item) =>
@@ -31,7 +31,7 @@ const ComplaintsTable = ({ all = false }) => {
 
    // Apply selected filters
    if (filters) {
-    console.log('testing', filters);
+    // console.log('testing', filters);
     filteredComplaints = filteredComplaints.filter((item) => {
       const statusMatch = filters.status.length === 0 || filters.status.includes(item.status.toLowerCase());
       const leaveMatch = filters.course.length === 0 || filters.course.includes(item.course.code);
@@ -48,6 +48,8 @@ const ComplaintsTable = ({ all = false }) => {
         </div>
       )}
       
+      {filteredComplaints.length > 0 ? (
+        <>
       <div className="flex gap-3 items-center mt-5 w-fit">
         {/* Search Input */}
         <div className="input !flex gap-3 items-center flex-1 !max-w-[400px]">
@@ -74,7 +76,6 @@ const ComplaintsTable = ({ all = false }) => {
       </div>
 
       <div className="overflow-x-auto mt-5 rounded-lg">
-        {filteredComplaints.length > 0 ? (
         <table className="w-full bg-white border border-gray-200 rounded-lg">
           {/* Table Header */}
           <thead className="bg-gray-100">
@@ -120,15 +121,17 @@ const ComplaintsTable = ({ all = false }) => {
               ))}
               </tbody>
             </table>
+                  </div>
+        </>
             ) : (
-              <div className="flex flex-col h-fit items-center justify-center">
+              <div className="flex flex-col h-full items-center justify-center">
                        <Lottie animationData={notfound} loop={true} />
                 <p  className="text-center py-4 text-gray-600">
                   No search results found
                 </p>
+                {presetFilters && <Button title='Go to Dashboard' es='!w-fit px-5' clickAction={() => router.push('/dashboard')} />}
               </div>
             )}
-      </div>
     </div>
   );
 };

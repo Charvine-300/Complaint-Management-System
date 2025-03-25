@@ -15,6 +15,7 @@ export const findItem = (id, showTitle = false) => {
   const courseId = id ?? courseID;
   const courseDetails = coursesList.find(item => item.id === courseId);
 
+  console.log("Filtered course: ", courseDetails, id);
   let fullTitle = `${courseDetails.code} ${courseDetails.name}` ?? null;
 
   return showTitle ? fullTitle : courseDetails.code;
