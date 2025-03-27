@@ -61,12 +61,12 @@ const useStore = create(
           set({ loading: false });
         }
       },      
-      getComplaintDetails: async (id, code) => {
+      getComplaintDetails: async (id) => {
         try {
           set({ detailsLoading: true });
           await axiosInstance.get(`complaint/get/${id}`)
           .then((response) => {
-            set({ complaintDetails: { ...response.data.data, code } });
+            set({ complaintDetails: response.data.data });
           });
         } catch (err) {
           console.log(err);

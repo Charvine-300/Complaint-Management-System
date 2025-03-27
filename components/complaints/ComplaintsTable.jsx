@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { Button, FilterComponent } from '@/components';
 import useStore from '@/utils/ComplaintMgmtStore';
 import { useRouter } from 'next/navigation';
-import { findItem } from '@/utils/formatter';
 import notfound from '../../public/assets/lotties/not-found.json';
 import dynamic from "next/dynamic";
 
@@ -92,7 +91,7 @@ const ComplaintsTable = ({ presetFilters = null, all = false }) => {
               {filteredComplaints.map((item) => (
                 <tr key={item.id} className="border-t border-gray-200 hover:bg-gray-50 text-sm relative">
                   <td className="px-4 py-3">{item.title}</td>
-                  <td className="px-4 py-3">{findItem(item.courseId)}</td>
+                  <td className="px-4 py-3">{item.course.code}</td>
                   <td className="px-4 py-3 hidden md:table-cell">
                     <span
                       className={`px-3 py-1 rounded-full lowercase text-sm font-medium ${
