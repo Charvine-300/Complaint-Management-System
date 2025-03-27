@@ -7,7 +7,6 @@ import useStore from '@/utils/ComplaintMgmtStore';
 import toast from 'react-hot-toast';
 import axiosInstance from '@/utils/axiosInstance';
 import { useModal } from '@/utils/ModalContext';
-import { findItem } from '@/utils/formatter';
 
 
 const LogComplaint = () => {
@@ -49,10 +48,9 @@ const LogComplaint = () => {
 
         if (complaintStore.isEditing) {
           complaintStore.setIsEditing(false);
-          let code = findItem(complaintStore.courseID, true);
 
           complaintStore.clearComplaints();
-          complaintStore.getComplaintDetails(defaultComplaint.id, code);
+          complaintStore.getComplaintDetails(defaultComplaint.id);
         } else { 
           complaintStore.getComplaints();
         }
@@ -124,11 +122,8 @@ const LogComplaint = () => {
   {complaintStore.isEditing ? (
     // Show text if editing a complaint
     <p className="text-gray-700 text-sm">
-    {complaintStore.coursesList
-      .find(course => course.id === watch("courseId")) 
-      ? `${complaintStore.coursesList.find(course => course.id === watch("courseId")).code} - ${complaintStore.coursesList.find(course => course.id === watch("courseId")).name}`
-      : "Course not found"}
-  </p>
+      {`${complaintStore.complaintDetails.course.code} - ${complaintStore.complaintDetails.course.name}`}
+    </p>
   ) : (
     // Show radio buttons if creating a new complaint
     <div className="flex flex-col gap-4">

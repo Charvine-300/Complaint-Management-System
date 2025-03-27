@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+* {
+  transition: all 0.3s ease-in-out;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -102,7 +106,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   .btn {
-    @apply cursor-pointer w-full py-2 rounded-sm mt-5;
+    @apply cursor-pointer w-full py-2 rounded-sm mt-5 hover:ring-4 hover:ring-blue-300/50 hover:shadow-2xl;
   }
   .primary-btn {
     @apply bg-blue-500 text-gray-50;

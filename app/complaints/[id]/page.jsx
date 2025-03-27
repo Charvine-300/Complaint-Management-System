@@ -1,12 +1,12 @@
 "use client";
 
 import React, { useEffect } from 'react'
-import { DashboardLayout, Button, LogComplaint, DeleteComplaint, ResolveComplaint } from '@/components'
+import { DashboardLayout, Button, LogComplaint, DeleteComplaint, ResolveComplaint, InvestigateComplaint } from '@/components'
 import { useParams, useRouter } from "next/navigation";
 import useStore from '@/utils/ComplaintMgmtStore';
 import loading from '../../../public/assets/lotties/loading.json';
 import { useModal } from '@/utils/ModalContext';
-import { findItem, formatDate } from '@/utils/formatter';
+import { formatDate } from '@/utils/formatter';
 import dynamic from "next/dynamic";
 
 const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
@@ -24,8 +24,7 @@ const ComplaintDetails = () => {
   }
 
   useEffect(() => {
-    let code = findItem(complaintStore.courseID, true);
-    complaintStore.getComplaintDetails(id, code);
+    complaintStore.getComplaintDetails(id);
   }, []);
   return (
     <>
@@ -37,7 +36,7 @@ const ComplaintDetails = () => {
             <img src="/assets/icons/arrow-left.svg" alt="Back icon" className='cursor-pointer' onClick={() => router.back()} />
             <h1 className='capitalize text-2xl font-medium text-gray-900'>Complaint Details</h1>
           </div>
-                          {(complaintStore.userType ?? "").toLowerCase() === "student" && complaintStore.userID === complaintStore.complaintDetails?.studentId &&
+                          {(complaintStore.userType ?? "").toLowerCase() === "student" && complaintStore.userID === complaintStore.complaintDetails?.studentId && complaintStore.complaintDetails?.status.toLowerCase() !== 'resolved' &&
           <div className="flex gap-3 items-center">
                             <Button
                               title="Edit Complaint"
@@ -55,13 +54,26 @@ const ComplaintDetails = () => {
                               clickAction={() => openModal("delete Complaint", () => <DeleteComplaint />)}
                             />
           </div>}
-                                {(complaintStore.userType ?? "").toLowerCase() === "lecturer" && <Button
+          {/* TODO - Change statuses when change has been made from the BE */}
+                                {(complaintStore.userType ?? "").toLowerCase() === "lecturer" &&   
+                                       <div className="flex gap-3 items-center">
+                                    {complaintStore.complaintDetails?.status.toLowerCase() === 'submitted' && <Button
+                                    title="Investigate Complaint"
+                                    type="button"
+                                    outlined
+                                    icon="/assets/icons/investigate.svg"
+                                    es="!text-[0px] md:!text-base !w-fit px-2 md:px-5 !mt-0 flex"
+                                    clickAction={() => openModal("investigate complaint", () => <InvestigateComplaint />)}
+                                    />}
+                                {complaintStore.complaintDetails?.status.toLowerCase() !== 'resolved' && <Button
                           title="Resolve Complaint"
                           type="button"
                           icon="/assets/icons/resolve.svg"
                           es="!text-[0px] md:!text-base !w-fit px-2 md:px-5 !mt-0 flex"
                           clickAction={() => openModal("resolve complaint", () => <ResolveComplaint />)}
                           />}
+                                       </div>
+                          }
                         </div>
         <div className='m-8'>
           <div className="detail-cell">
@@ -71,7 +83,7 @@ const ComplaintDetails = () => {
             </div>
             <div className="detail-item">
               <p>Course:</p>
-              <p className="recoleta-medium">{complaintStore.complaintDetails?.code}</p>
+              <p className="recoleta-medium">{`${complaintStore.complaintDetails?.course.code} ${complaintStore.complaintDetails?.course.name}`}</p>
             </div>
           </div>
           
