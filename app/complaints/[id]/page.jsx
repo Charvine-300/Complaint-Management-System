@@ -36,7 +36,7 @@ const ComplaintDetails = () => {
             <img src="/assets/icons/arrow-left.svg" alt="Back icon" className='cursor-pointer' onClick={() => router.back()} />
             <h1 className='capitalize text-2xl font-medium text-gray-900'>Complaint Details</h1>
           </div>
-                          {(complaintStore.userType ?? "").toLowerCase() === "student" && complaintStore.userID === complaintStore.complaintDetails?.studentId && complaintStore.complaintDetails?.status.toLowerCase() !== 'submitted' &&
+                          {(complaintStore.userType ?? "").toLowerCase() === "student" && complaintStore.userID === complaintStore.complaintDetails?.studentId && complaintStore.complaintDetails?.status.toLowerCase() !== 'resolved' &&
           <div className="flex gap-3 items-center">
                             <Button
                               title="Edit Complaint"
