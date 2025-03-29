@@ -30,6 +30,7 @@ const Login = () => {
           const userObject = {
             id: response.data.data.id,
             name: response.data.data.name,
+            email: response.data.data.email,
             token: response.data.token,
             courses: response.data.data.courses,
             type: data.role,

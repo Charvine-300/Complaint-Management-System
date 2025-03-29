@@ -7,9 +7,11 @@ import axiosInstance from "./axiosInstance";
 const initialState = {
   userType: "",
   userName: "",
+  userEmail: "",
   userID: "",
   loading: false,
   detailsLoading: false,
+  commentsLoading: false,
   isEditing: false,
   noOfCourses: 0,
   loggedComplaints: 0,
@@ -18,6 +20,7 @@ const initialState = {
   complaints: null,
   courseID: null,
   complaintDetails: null,
+  complaintComments: null,
   accessToken: null,
   coursesList: null,
 };
@@ -37,10 +40,11 @@ const useStore = create(
           accessToken: data.token,
           userName: data.name,
           userID: data.id,
+          userEmail: data.email,
           noOfCourses: data.courses.length,
           userType: data.type !== undefined ? data.type : state.userType, // Only update if `data.type` exists
         })),      
-      setCoursesList: (courses) => set({ coursesList: courses }),
+      setCoursesList: (courses) => set({ coursesList: courses, noOfCourses: courses.length }),
       getComplaints: async () => {
         try {
           set({ loading: true });
@@ -74,6 +78,19 @@ const useStore = create(
           set({ detailsLoading: false });
         }
       }, 
+      getComplaintComments: async (id) => {
+        try {
+          set({ commentsLoading: true });
+          await axiosInstance.get(`response/get/${id}`)
+          .then((response) => {
+            set({ complaintComments: response.data.data.reverse() });
+          });
+        } catch (err) {
+          console.log(err);
+        } finally {
+          set({ commentsLoading: false });
+        }
+      },
       clearComplaintDetails: () => {
         set({ complaintDetails: null });
       },

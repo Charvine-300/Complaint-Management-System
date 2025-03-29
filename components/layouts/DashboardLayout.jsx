@@ -21,7 +21,8 @@ const DashboardLayout = ({ children }) => {
     ...( (complaintStore.userType ?? "").toLowerCase() === "lecturer" 
         ? [{ name: "Resolved Complaints", path: "/resolved-complaints", iconName: "Resolved" }] 
         : [] 
-    )
+    ),
+    { name: "Settings", path: "/settings", iconName: "Settings" },
   ];
   
 

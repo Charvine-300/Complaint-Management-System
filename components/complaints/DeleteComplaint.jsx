@@ -32,7 +32,7 @@ const DeleteComplaint = () => {
     }
   };
 
-  // TODO - Integrate function for Delete Complaint feature
+
   return (
     <div>
       <p className="text-gray-600">

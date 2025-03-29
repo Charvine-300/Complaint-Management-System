@@ -41,7 +41,7 @@ const LogComplaint = () => {
     }
 
     try {
-      await axiosInstance.post(`/complaint/${defaultComplaint ? 'edit' : 'create'}`, requestData)
+      await axiosInstance.post(`/complaint/${complaintStore.isEditing ? 'edit' : 'create'}`, requestData)
       .then((res) => {
         toast.success( res.data.message  || "Complaint logged successfully!");
         closeModal();

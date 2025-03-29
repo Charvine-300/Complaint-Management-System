@@ -6,6 +6,7 @@ import useStore from '@/utils/ComplaintMgmtStore';
 import { useRouter } from 'next/navigation';
 import notfound from '../../public/assets/lotties/not-found.json';
 import dynamic from "next/dynamic";
+import { formatStatus } from '@/utils/formatter';
 
 const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
@@ -109,7 +110,7 @@ const ComplaintsTable = ({ presetFilters = null, all = false }) => {
                         })()
                       }`}
                     >
-                      {item.status}
+                      {formatStatus(item.status)}
                     </span>
                   </td>
                   {/* Action Column */}
