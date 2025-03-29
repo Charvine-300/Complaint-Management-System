@@ -17,10 +17,10 @@ const DeleteAccount = () => {
   const handleDelete = () => {
     setLoading(true);
     try {
-      axiosInstance.post('/account/delete', { complaintId: complaintStore.userId })
+      axiosInstance.post('/account/delete', { userId: complaintStore.userID })
       .then((res) => {
+        closeModal();
         toast.success( res.data.message  || "Account deleted successfully!");
-        
         router.push('/auth/signup');
       });
     } catch (error) {

@@ -86,7 +86,7 @@ const DashboardLayout = ({ children }) => {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 p-6 relative overflow-y-auto">
+        <main className="flex-1 p-6 relative overflow-y-auto scrollbar-hidden">
           {/* Mobile Sidebar Toggle Button */}
           <div className="fixed top-0 left-0 w-full lg:hidden bg-white shadow-md z-50 px-4 py-1 flex justify-between items-center">
             {/* Mobile Sidebar Toggle Button */}

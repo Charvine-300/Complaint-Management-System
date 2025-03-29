@@ -128,7 +128,6 @@ const Signup = () => {
   
   useEffect(() => {
     getCourses();
-    complaintStore.resetStore(); // Clear saved state
   }, []);
 
   useEffect(() => {

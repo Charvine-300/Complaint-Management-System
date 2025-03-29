@@ -1,7 +1,7 @@
 'use client';
 
 import { AuthLayout, Button } from '@/components';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from "next/navigation";
 import useStore from '@/utils/ComplaintMgmtStore';
 
@@ -14,6 +14,10 @@ const UserType = () => {
     complaintStore.handleUserType(userType);
     router.push('/auth/signup');
   }
+
+  useEffect(() => {
+    complaintStore.resetStore(); // Reset store before signing up
+  }, []);
 
   return (
     <AuthLayout>
