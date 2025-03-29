@@ -4,16 +4,12 @@ import React, { useEffect, useState } from 'react'
 import { DashboardLayout, Button, LogComplaint, DeleteComplaint, ResolveComplaint, InvestigateComplaint, Loading } from '@/components'
 import { useParams, useRouter } from "next/navigation";
 import useStore from '@/utils/ComplaintMgmtStore';
-import loading from '../../../public/assets/lotties/loading.json';
 import { useModal } from '@/utils/ModalContext';
 import { formatDate, timeAgo } from '@/utils/formatter';
-import dynamic from "next/dynamic";
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import axiosInstance from '@/utils/axiosInstance';
 
-
-const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 
 const ComplaintDetails = () => {
@@ -211,7 +207,7 @@ const ComplaintDetails = () => {
           }
                 </> : <div className="h-[80vh] w-full flex justify-center items-center">
                           <div>
-                          <Lottie animationData={loading} loop={true} />
+                              <Loading color='border-blue-500' es='border-8 w-32 h-32 mb-8' />
                           <h1 className='capitalize text-2xl  font-medium text-gray-900 text-center'>fetching complaint details...</h1>
                           </div>
                         </div>}

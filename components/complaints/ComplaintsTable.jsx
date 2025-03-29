@@ -4,11 +4,6 @@ import React, { useState } from 'react';
 import { Button, FilterComponent } from '@/components';
 import useStore from '@/utils/ComplaintMgmtStore';
 import { useRouter } from 'next/navigation';
-import notfound from '../../public/assets/lotties/not-found.json';
-import dynamic from "next/dynamic";
-
-
-const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 
 const ComplaintsTable = ({ presetFilters = null, all = false }) => {
@@ -125,7 +120,7 @@ const ComplaintsTable = ({ presetFilters = null, all = false }) => {
         </>
             ) : (
               <div className="flex flex-col h-full items-center justify-center">
-                       <Lottie animationData={notfound} loop={true} />
+                  <img src="/assets/icons/not-found.svg" alt="not found" className='w-32 h-32 mb-8' />
                 <p  className="text-center py-4 text-gray-600">
                   No search results found
                 </p>

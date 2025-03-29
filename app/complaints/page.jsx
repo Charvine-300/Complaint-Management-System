@@ -1,13 +1,10 @@
 'use client'
 
 import React, { useEffect } from 'react'
-import { DashboardLayout, Button, ComplaintsTable, LogComplaint } from '@/components'
-import loading from '../../public/assets/lotties/loading.json';
+import { DashboardLayout, Button, ComplaintsTable, LogComplaint, Loading } from '@/components'
 import useStore from '@/utils/ComplaintMgmtStore';
 import { useModal } from '@/utils/ModalContext';
-import dynamic from "next/dynamic";
 
-const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 const Complaints = () => {
   const { openModal } = useModal();
@@ -45,8 +42,8 @@ const Complaints = () => {
                 <ComplaintsTable all />
             </> :  <div className="h-[80vh] w-full flex justify-center items-center">
                       <div>
-                      <Lottie animationData={loading} loop={true} />
-                      <h1 className='capitalize text-2xl font-medium text-gray-900 text-center'>fetching complaints...</h1>
+                        <Loading color='border-blue-500' es='border-8 w-32 h-32 mb-8' />
+                        <h1 className='capitalize text-2xl font-medium text-gray-900 text-center'>fetching complaints...</h1>
                       </div>
                     </div>}
       </DashboardLayout>
