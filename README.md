@@ -92,7 +92,7 @@ You can view the web app live [here](https://zenly-complaint-mgmt-system.vercel.
 
 | Role             | People                             |
 |-----------------|----------------------------------|
-| Code 💻          | Chidera Ezenwekwe, Olowokudejo Olaolu, Oshodi Jesutomison John,  ⁠Ifediogor Onyedikachi best                |
-| Maintenance 🛠   | Chidera Ezenwekwe, Olowokudejo Olaolu, Oshodi Jesutomison John,  ⁠Ifediogor Onyedikachi best                |
-| Documentation 📖 | Chidera Ezenwekwe                |
+| Code 💻          | Chidera Ezenwekwe, Olowokudejo Olaolu, ⁠Nkama Toluwani William    |
+| Maintenance 🛠   | Chidera Ezenwekwe, Olowokudejo Olaolu, Oshodi Jesutomison John, ⁠Ifediogor Onyedikachi best, Adeiye Tajudeen Babatunde    |
+| Documentation 📖 | Chidera Ezenwekwe, ⁠Ifediogor Onyedikachi best, Olowokudejo Olaolu     |
 
