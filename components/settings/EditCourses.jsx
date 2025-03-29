@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import { Button, Loading } from '@/components';
 import { useModal } from '@/utils/ModalContext';
 import useStore from '@/utils/ComplaintMgmtStore';
-import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import axiosInstance from '@/utils/axiosInstance';
 import { useForm } from 'react-hook-form';

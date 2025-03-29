@@ -1,7 +1,7 @@
 import React from 'react'
 import { Loading } from '.'
 
-const Button = ({ type, title = null, icon=null, es= null, loading = false, clickAction = null, outlined = false, disabled = false }) => {
+const Button = ({ type, title = null, icon=null, es= null, loading = false, clickAction = null, outlined = false, disabled = false, danger = false }) => {
   const handleClickAction = () => {
     if (clickAction) clickAction();
   }
@@ -9,7 +9,7 @@ const Button = ({ type, title = null, icon=null, es= null, loading = false, clic
     <button 
     type={type} 
     disabled={disabled}  
-    className={`btn ${es} ${!outlined ? 'primary-btn' : 'outline-btn'} ${icon ? 'flex gap-1 items-center' : 'justify-center'}`} 
+    className={`btn ${es} ${!outlined ? 'primary-btn' : 'outline-btn'} ${icon ? 'flex gap-1 items-center' : 'justify-center'} ${danger ? 'danger-btn' : 'normal-btn'}`} 
     onClick={handleClickAction} 
     title={title}
   >

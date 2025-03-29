@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { DashboardLayout, SubHeadings, Button, EditCourses } from '@/components';
+import { DashboardLayout, SubHeadings, Button, EditCourses, DeleteAccount } from '@/components';
 import useStore from '@/utils/ComplaintMgmtStore';
 import { getWord } from '@/utils/formatter';
 import { useModal } from '@/utils/ModalContext';
@@ -72,6 +72,17 @@ const Settings = () => {
           </div>
 
           <SubHeadings title='termination' img='/assets/icons/security.svg' />
+          <div className='border border-gray-300 rounded-md p-6 mt-5 mb-12 flex gap-3 items-center'>
+            <p className='text-sm'>Account</p>
+            <Button
+                              title="Delete account"
+                              type="button"
+                              outlined
+                              danger
+                              es="block !w-fit px-2 md:px-5 !mt-0 !border-red-500 !text-red-500 hover:ring-4 hover:ring-red-500/50 "
+                              clickAction={() => openModal("delete account", () => <DeleteAccount />)}
+                            />
+          </div>
         </div>
       </DashboardLayout>
     </>

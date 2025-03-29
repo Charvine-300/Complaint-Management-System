@@ -16,7 +16,8 @@ import DeleteComplaint from "./complaints/DeleteComplaint";
 import ResolveComplaint from "./complaints/ResolveComplaint";
 import FilterComponent from "./complaints/FilterComponent";
 import InvestigateComplaint from "./complaints/InvestigateComplaint";
-import EditCourses from "./complaints/EditCourses";
+import EditCourses from "./settings/EditCourses";
+import DeleteAccount from "./settings/DeleteAccount";
 
 export {
     AuthLayout,
@@ -33,5 +34,6 @@ export {
     FilterComponent,
     InvestigateComplaint,
     SubHeadings,
-    EditCourses
+    EditCourses,
+    DeleteAccount
 }
