@@ -27,7 +27,7 @@ const Modal = () => {
     <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-80 p-4 overflow-y-auto">
       <div
         className="bg-white p-6 rounded-lg shadow-lg max-w-lg w-[90%] mx-auto 
-                   max-h-[90vh] overflow-y-auto"
+                   max-h-[90vh] overflow-y-auto animate-fadeUp"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center">

@@ -1,12 +1,9 @@
 'use client'
 
 import React, { useEffect } from 'react'
-import { DashboardLayout, ComplaintsTable } from '@/components'
-import loading from '../../public/assets/lotties/loading.json';
+import { DashboardLayout, ComplaintsTable, Loading } from '@/components'
 import useStore from '@/utils/ComplaintMgmtStore';
-import dynamic from "next/dynamic";
 
-const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 const ResolvedComplaints = () => {
   const complaintStore = useStore((state) => state);
@@ -29,7 +26,7 @@ const ResolvedComplaints = () => {
                 <ComplaintsTable presetFilters={{ status: ['resolved'], course: [] }} all />
             </> :  <div className="h-[80vh] w-full flex justify-center items-center">
                       <div>
-                      <Lottie animationData={loading} loop={true} />
+                        <Loading color='border-blue-500' es='border-8 w-32 h-32 mb-8' />
                       <h1 className='capitalize text-2xl font-medium text-gray-900 text-center'>fetching complaints...</h1>
                       </div>
                     </div>}

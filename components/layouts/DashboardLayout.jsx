@@ -4,7 +4,6 @@ import React, { useState } from 'react'
 import useStore from '@/utils/ComplaintMgmtStore';
 import { useRouter, usePathname } from 'next/navigation';
 import { Modal } from '@/components';
-import DashboardIcon from "../../public/assets/images/ChartBar.svg";
 import { formatIconName } from '@/utils/formatter';
 
 
@@ -21,7 +20,8 @@ const DashboardLayout = ({ children }) => {
     ...( (complaintStore.userType ?? "").toLowerCase() === "lecturer" 
         ? [{ name: "Resolved Complaints", path: "/resolved-complaints", iconName: "Resolved" }] 
         : [] 
-    )
+    ),
+    { name: "Settings", path: "/settings", iconName: "Settings" },
   ];
   
 
@@ -30,7 +30,7 @@ const DashboardLayout = ({ children }) => {
   }
 
   return (
-    <div className="flex min-h-screen justify-center">
+    <div className="flex h-screen overflow-y-hidden justify-center">
       {/* Container with max width 1440px */}
       <div className="flex w-full max-w-[1440px] mx-auto">
         {/* Sidebar */}
@@ -86,7 +86,7 @@ const DashboardLayout = ({ children }) => {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 p-6 relative">
+        <main className="flex-1 p-6 relative overflow-y-auto scrollbar-hidden">
           {/* Mobile Sidebar Toggle Button */}
           <div className="fixed top-0 left-0 w-full lg:hidden bg-white shadow-md z-50 px-4 py-1 flex justify-between items-center">
             {/* Mobile Sidebar Toggle Button */}

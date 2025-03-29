@@ -6,6 +6,7 @@ import Loading from './Loading'
 import Button from "./Button";
 import Modal from './Modal';
 import StatsCard from "./dashboard/StatsCard";
+import SubHeadings from "./settings/SubHeadings";
 import ComplaintsTable from "./complaints/ComplaintsTable";
 import ScrollToTop from "./ScrollToTop";
 
@@ -15,6 +16,8 @@ import DeleteComplaint from "./complaints/DeleteComplaint";
 import ResolveComplaint from "./complaints/ResolveComplaint";
 import FilterComponent from "./complaints/FilterComponent";
 import InvestigateComplaint from "./complaints/InvestigateComplaint";
+import EditCourses from "./settings/EditCourses";
+import DeleteAccount from "./settings/DeleteAccount";
 
 export {
     AuthLayout,
@@ -29,5 +32,8 @@ export {
     DeleteComplaint,
     ResolveComplaint,
     FilterComponent,
-    InvestigateComplaint
+    InvestigateComplaint,
+    SubHeadings,
+    EditCourses,
+    DeleteAccount
 }

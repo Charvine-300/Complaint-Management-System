@@ -93,6 +93,11 @@ h1, h2, h3, h4, h5, h6 {
   background-color: rgba(0, 0, 0, 0.3);
 }
 
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+
+
 @layer utilities {
   .input-field-group {
     @apply mb-4 flex gap-2 flex-col;
@@ -106,8 +111,17 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   .btn {
-    @apply cursor-pointer w-full py-2 rounded-sm mt-5 hover:ring-4 hover:ring-blue-300/50 hover:shadow-2xl;
+    @apply cursor-pointer w-full py-2 rounded-sm mt-5;
   }
+
+  .normal-btn {
+    @apply hover:ring-4 hover:ring-blue-300/50 hover:shadow-2xl;
+  }
+
+  .danger-btn {
+    @apply hover:ring-4 hover:ring-red-300/50 hover:shadow-2xl;
+  }
+
   .primary-btn {
     @apply bg-blue-500 text-gray-50;
   }

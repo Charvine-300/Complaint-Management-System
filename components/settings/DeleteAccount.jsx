@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import axiosInstance from '@/utils/axiosInstance';
 
-const DeleteComplaint = () => {
+const DeleteAccount = () => {
   const router = useRouter();
   const { closeModal } = useModal();
   const [loading, setLoading] = useState(false);
@@ -17,16 +17,14 @@ const DeleteComplaint = () => {
   const handleDelete = () => {
     setLoading(true);
     try {
-      axiosInstance.post('/complaint/delete', { complaintId: complaintStore.complaintDetails.id })
+      axiosInstance.post('/account/delete', { userId: complaintStore.userID })
       .then((res) => {
-        toast.success( res.data.message  || "Complaint deleted successfully!");
         closeModal();
-        complaintStore.clearComplaints();
-        
-        router.back();
+        toast.success( res.data.message  || "Account deleted successfully!");
+        router.push('/auth/signup');
       });
     } catch (error) {
-      toast.error(error.response.data.message || 'Complaint Delete failed');
+      toast.error(error.response.data.message || 'Account Deletion failed');
     } finally {
       setLoading(false);
     }
@@ -35,12 +33,13 @@ const DeleteComplaint = () => {
 
   return (
     <div>
-      <p className="text-gray-600">
-        Are you sure you want to delete this complaint?
-      </p>
-      <p className="text-gray-600 mt-5">
-        This action cannot be undone, and you will lose all records of this complaint.
-      </p>
+    <p className="text-gray-600">
+  Are you sure you want to delete your account?
+</p>
+<p className="text-gray-600 mt-5">
+  This action cannot be undone. All your data, including your profile, settings, and saved information, will be permanently erased. You will lose access to your account and any associated services.
+</p>
+
 
       <div className="flex flex-col md:flex-row md:justify-between gap-3 items-center w-full mt-8">
         <Button
@@ -51,9 +50,9 @@ const DeleteComplaint = () => {
           clickAction={closeModal}
         />
         <Button
-          title="Delete Complaint"
+          title="Delete Account"
           type="button"
-          es="md:w-[47%] px-2 md:px-5 !mt-0 flex"
+          es="md:w-[47%] px-2 md:px-5 !mt-0 flex !bg-red-500"
           loading={loading}
           clickAction={handleDelete}
         />
@@ -62,4 +61,4 @@ const DeleteComplaint = () => {
   );
 };
 
-export default DeleteComplaint
+export default DeleteAccount

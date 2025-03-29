@@ -4,10 +4,6 @@ import React, { useState } from 'react';
 import { Button, FilterComponent } from '@/components';
 import useStore from '@/utils/ComplaintMgmtStore';
 import { useRouter } from 'next/navigation';
-import notfound from '../../public/assets/lotties/not-found.json';
-import dynamic from "next/dynamic";
-
-const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 
 const ComplaintsTable = ({ presetFilters = null, all = false }) => {
@@ -47,9 +43,7 @@ const ComplaintsTable = ({ presetFilters = null, all = false }) => {
         </div>
       )}
       
-      {filteredComplaints.length > 0 ? (
-        <>
-      <div className="flex gap-3 items-center mt-5 w-fit">
+      {complaintStore.complaints.length > 0 && <div className="flex gap-3 items-center mt-5 w-fit">
         {/* Search Input */}
         <div className="input !flex gap-3 items-center flex-1 !max-w-[400px]">
           <img src="/assets/icons/search.svg" alt="Search icon" className='w-4 h-4'/>
@@ -72,8 +66,10 @@ const ComplaintsTable = ({ presetFilters = null, all = false }) => {
 
         {/* Filter Dropdown */}
         {showFilter && <FilterComponent onClose={() => setShowFilter(false)} onApply={(filters) => { setFilters(filters); setShowFilter(false); }} appliedFilters={filters} />}
-      </div>
+      </div>}
 
+      {filteredComplaints.length > 0 ? (
+        <>
       <div className="overflow-x-auto mt-5 rounded-lg">
         <table className="w-full bg-white border border-gray-200 rounded-lg">
           {/* Table Header */}
@@ -124,7 +120,7 @@ const ComplaintsTable = ({ presetFilters = null, all = false }) => {
         </>
             ) : (
               <div className="flex flex-col h-full items-center justify-center">
-                       <Lottie animationData={notfound} loop={true} />
+                  <img src="/assets/icons/not-found.svg" alt="not found" className='w-32 h-32 mb-8' />
                 <p  className="text-center py-4 text-gray-600">
                   No search results found
                 </p>

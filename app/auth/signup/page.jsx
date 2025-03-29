@@ -57,6 +57,7 @@ const Signup = () => {
           id: response.data.data.id,
           name: response.data.data.name,
           token: response.data.token,
+          email: response.data.data.email,
           courses: response.data.data.courses
         };
         complaintStore.setUpdateUserData(userObject);
@@ -127,7 +128,6 @@ const Signup = () => {
   
   useEffect(() => {
     getCourses();
-    complaintStore.resetStore(); // Clear saved state
   }, []);
 
   useEffect(() => {
