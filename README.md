@@ -1,36 +1,98 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Zenly | Complaint Management System
 
-## Getting Started
+A platform where students and lecturers can manage complaints on courses they are taking/teaching.
 
-First, run the development server:
+## Functional Requirements
+
+The functional requirements are as follows:
+
+- Students can submit complaints regarding their courses.
+- Lecturers can view complaints related to their courses and provide responses.
+- Users can track the status of their complaints.
+- Notifications are sent to users upon updates to complaints.
+
+## Technologies and Dependencies
+
+- [Next.js](https://nextjs.org/ 'Next.js')
+- [React](https://react.dev/ 'React')
+- [Zustand](https://zustand-demo.pmnd.rs/ 'Zustand')
+- [Axios](https://www.npmjs.com/package/axios 'Axios')
+- [React Hook Form](https://react-hook-form.com/ 'React Hook Form')
+- [React Hot Toast](https://react-hot-toast.com/ 'React Hot Toast')
+- [Moment.js](https://momentjs.com/ 'Moment.js')
+- [Tailwind CSS](https://tailwindcss.com/ 'Tailwind CSS')
+- [ESLint](https://eslint.org/ 'ESLint')
+- [Autoprefixer](https://github.com/postcss/autoprefixer 'Autoprefixer')
+- [PostCSS](https://postcss.org/ 'PostCSS')
+
+## Prerequisites
+
+To run the web application, you need:
+- Node.js
+- NPM or Yarn
+- A code editor (e.g., VSCode with ESLint installed)
+
+## Environment Variables
+
+Environment variables are stored in the `.env.local` file in the root directory.
+
+## Setup
+
+- Clone the project:
+
+```bash
+git clone https://github.com/Charvine-300/Complaint-Management-System.git
+```
+
+- Navigate to the project root path:
+
+```bash
+cd Complaint-Management-System
+```
+
+- Install dependencies:
+
+```bash
+npm install
+```
+
+- Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Code Structure
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- `.github`: Contains GitHub-specific configurations for CI/CD workflows.
+- `public`: Stores static assets such as images.
+- `src`: Contains the source code for the application.
+  - `app`: Handles Next.js file-based routing.
+  - `components`: Reusable UI components.
+  - `lib`: Contains API and state management configurations.
+    - `utils`: Utility functions, variables, and TypeScript interfaces.
+  - `styles`: Global styles and Tailwind CSS configurations.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Development Process
 
-## Learn More
+- Pull from the main branch.
+- Create a feature branch off the main branch.
+- Implement changes and push to the feature branch.
+- Merge to the development branch after resolving conflicts.
+- QA tests the changes on the development branch.
+- If approved, merge to staging.
+- If no staging, proceed to production.
 
-To learn more about Next.js, take a look at the following resources:
+## Deployment
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Deployed on Vercel for seamless hosting and automatic deployment.
+You can view the web app live [here](https://zenly-complaint-mgmt-system.vercel.app/ 'here').
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Contributors
 
-## Deploy on Vercel
+| Role             | People                             |
+|-----------------|----------------------------------|
+| Code 💻          | Chidera Ezenwekwe, Olowokudejo Olaolu, Oshodi Jesutomison John,  ⁠Ifediogor Onyedikachi best                |
+| Maintenance 🛠   | Chidera Ezenwekwe, Olowokudejo Olaolu, Oshodi Jesutomison John,  ⁠Ifediogor Onyedikachi best                |
+| Documentation 📖 | Chidera Ezenwekwe                |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
