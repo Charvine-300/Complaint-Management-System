@@ -6,7 +6,7 @@ import { useParams, useRouter } from "next/navigation";
 import useStore from '@/utils/ComplaintMgmtStore';
 import loading from '../../../public/assets/lotties/loading.json';
 import { useModal } from '@/utils/ModalContext';
-import { formatDate, formatStatus, timeAgo } from '@/utils/formatter';
+import { formatDate, timeAgo } from '@/utils/formatter';
 import dynamic from "next/dynamic";
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -136,7 +136,7 @@ const ComplaintDetails = () => {
                         return "bg-gray-100 text-gray-700"; // Default (in case of unexpected status)
                     }
                   })()
-                }`}>{formatStatus(complaintStore.complaintDetails?.status)}</p>
+                }`}>{complaintStore.complaintDetails?.status}</p>
             </div>
             <div className="detail-item">
               <p>Complaint Type:</p>

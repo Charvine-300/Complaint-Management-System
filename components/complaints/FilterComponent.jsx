@@ -2,10 +2,10 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components';
-// import useStore from '@/utils/ComplaintMgmtStore';
+import useStore from '@/utils/ComplaintMgmtStore';
 
 const FilterComponent = ({ onClose, onApply, appliedFilters }) => {
-  // const complaintStore = useStore((state) => state);
+  const complaintStore = useStore((state) => state);
   const [filters, setFilters] = useState({
     status: [],
     course: [],
@@ -17,14 +17,15 @@ const FilterComponent = ({ onClose, onApply, appliedFilters }) => {
 
   const filterRef = useRef(null);
 
-  const resetFilters = () => {
-    setFilters({
-      status: [],
-      course: [],
-    });
+  // const resetFilters = () => {
+  //   setFilters({
+  //     status: [],
+  //     course: [],
+  //   });
 
-    onApply(filters);
-  };
+  //   console.log(filters);
+  //   // onApply(filters);
+  // };
   
 
   useEffect(() => {
@@ -65,8 +66,7 @@ const FilterComponent = ({ onClose, onApply, appliedFilters }) => {
       </div>
 
       {/* Leave Status */}
-      {/* TODO - Use course code in filter feature */}
-      {/* <div className="mb-4">
+      <div className="mb-4">
         <h4 className="text-sm font-semibold text-gray-600 mb-2">Course Code</h4>
         {complaintStore.coursesList.map((status) => (
           <label key={status.code} className="flex items-center gap-2 mb-1 text-gray-700">
@@ -78,12 +78,12 @@ const FilterComponent = ({ onClose, onApply, appliedFilters }) => {
             {status.code}
           </label>
         ))}
-      </div> */}
+      </div>
 
       {/* Apply Button */}
       <div className="mt-5 flex gap-3 flex-nowrap">
         <Button title="Filter" clickAction={() => onApply(filters)} es="!mt-0 w-full" />
-        <Button title="Reset" clickAction={resetFilters} es="!mt-0 w-full" outlined />
+        {/* <Button title="Reset" clickAction={resetFilters} es="!mt-0 w-full" outlined /> */}
       </div>
       
     </div>

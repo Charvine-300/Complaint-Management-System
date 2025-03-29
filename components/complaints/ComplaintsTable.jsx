@@ -6,7 +6,7 @@ import useStore from '@/utils/ComplaintMgmtStore';
 import { useRouter } from 'next/navigation';
 import notfound from '../../public/assets/lotties/not-found.json';
 import dynamic from "next/dynamic";
-import { formatStatus } from '@/utils/formatter';
+
 
 const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
@@ -48,9 +48,7 @@ const ComplaintsTable = ({ presetFilters = null, all = false }) => {
         </div>
       )}
       
-      {filteredComplaints.length > 0 ? (
-        <>
-      <div className="flex gap-3 items-center mt-5 w-fit">
+      {complaintStore.complaints.length > 0 && <div className="flex gap-3 items-center mt-5 w-fit">
         {/* Search Input */}
         <div className="input !flex gap-3 items-center flex-1 !max-w-[400px]">
           <img src="/assets/icons/search.svg" alt="Search icon" className='w-4 h-4'/>
@@ -73,8 +71,10 @@ const ComplaintsTable = ({ presetFilters = null, all = false }) => {
 
         {/* Filter Dropdown */}
         {showFilter && <FilterComponent onClose={() => setShowFilter(false)} onApply={(filters) => { setFilters(filters); setShowFilter(false); }} appliedFilters={filters} />}
-      </div>
+      </div>}
 
+      {filteredComplaints.length > 0 ? (
+        <>
       <div className="overflow-x-auto mt-5 rounded-lg">
         <table className="w-full bg-white border border-gray-200 rounded-lg">
           {/* Table Header */}
@@ -110,7 +110,7 @@ const ComplaintsTable = ({ presetFilters = null, all = false }) => {
                         })()
                       }`}
                     >
-                      {formatStatus(item.status)}
+                      {item.status}
                     </span>
                   </td>
                   {/* Action Column */}
