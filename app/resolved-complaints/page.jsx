@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect } from 'react'
-import { DashboardLayout, ComplaintsTable } from '@/components'
+import { DashboardLayout, ComplaintsTable, Loading } from '@/components'
 import useStore from '@/utils/ComplaintMgmtStore';
 
 
