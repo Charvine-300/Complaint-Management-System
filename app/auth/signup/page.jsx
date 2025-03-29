@@ -165,29 +165,45 @@ const Signup = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="my-5 px-6 w-full font-dmSans">
           {/* First Name Input */}
           <div className="input-field-group">
-            <label htmlFor="first_name" className="label">First Name</label>
-            <input
-              type="text"
-              id="first_name"
-              {...register("first_name", { required: "First name is required" })}
-              className="input"
-              placeholder="John"
-            />
-            {errors.first_name && <p className="text-red-500 text-sm">{errors.first_name.message}</p>}
-          </div>
+  <label htmlFor="first_name" className="label">First Name</label>
+  <input
+    type="text"
+    id="first_name"
+    {...register("first_name", {
+      required: "First name is required",
+      pattern: {
+        value: /^[A-Za-z0-9]+$/,
+        message: "First name can only contain letters and numbers (no special characters)",
+      },
+      validate: (value) =>
+        /[A-Za-z]/.test(value) || "First name must contain letters",
+    })}
+    className="input"
+    placeholder="John"
+  />
+  {errors.first_name && <p className="text-red-500 text-sm">{errors.first_name.message}</p>}
+</div>
 
-           {/* First Name Input */}
-           <div className="input-field-group">
-            <label htmlFor="last_name" className="label">Last Name</label>
-            <input
-              type="text"
-              id="last_name"
-              {...register("last_name", { required: "Last name is required" })}
-              className="input"
-              placeholder="Doe"
-            />
-            {errors.last_name && <p className="text-red-500 text-sm">{errors.last_name.message}</p>}
-          </div>
+<div className="input-field-group">
+  <label htmlFor="last_name" className="label">Last Name</label>
+  <input
+    type="text"
+    id="last_name"
+    {...register("last_name", {
+      required: "Last name is required",
+      pattern: {
+        value: /^[A-Za-z0-9]+$/,
+        message: "Last name can only contain letters and numbers (no special characters)",
+      },
+      validate: (value) =>
+        /[A-Za-z]/.test(value) || "Last name must contain letters",
+    })}
+    className="input"
+    placeholder="Doe"
+  />
+  {errors.last_name && <p className="text-red-500 text-sm">{errors.last_name.message}</p>}
+</div>
+
 
           {/* Email Input */}
           <div className="input-field-group">
@@ -272,7 +288,7 @@ const Signup = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 id="password"
-                {...register("password", { required: "Password is required", minLength: { value: 6, message: "Password must be at least 6 characters" } })}
+                {...register("password", { required: "Password is required", minLength: { value: 8, message: "Password must be at least 8 characters" } })}
                 className="pr-10 input"
                 placeholder="Enter your password"
               />
